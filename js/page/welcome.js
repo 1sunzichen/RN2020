@@ -17,14 +17,6 @@ class Welcome extends Component {
     const {navigation} = this.props;
     return (
       <View>
-        {/* <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-             <NameStyle />
-          </ScrollView>
-        </SafeAreaView> */}
         <Text>WelcomePage</Text>
       </View>
     );
