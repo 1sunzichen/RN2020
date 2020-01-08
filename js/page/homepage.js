@@ -7,29 +7,89 @@
  */
 
 import React, {Component} from 'react';
-import NameStyle from './component/index.tsx';
-import {StyleSheet, View, Text} from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {createAppContainer} from 'react-navigation';
+import PopularPage from './PopularPage';
+import MyPage from './MyPage';
+import TrendingPage from './TrendingPage';
+import FavoritePage from './FavoritePage';
+import NavigationUtil from '../../navigators/navigationUtil';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+type Props = {};
 
-class Homepage extends Component {
-  render() {
-    const {navigation} = this.props;
-    return (
-      <View>
-        {/* <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-             <NameStyle />
-          </ScrollView>
-        </SafeAreaView> */}
-        <Text>HomePage</Text>
-      </View>
+export default class HomePage extends Component<Props> {
+  _getBottom() {
+    return createBottomTabNavigator(
+      {
+        PopularPage: {
+          screen: PopularPage,
+          navigationOptions: {
+            tarBarLabel: '最热',
+            tabBarIcon: ({tintColor}) => (
+              <Ionicons
+                name={'ios-flame'}
+                size={26}
+                style={{color: tintColor}}
+              />
+            ),
+          },
+        },
+        TrendingPage: {
+          screen: TrendingPage,
+          navigationOptions: {
+            tarBarLabel: '趋势',
+            tabBarIcon: ({tintColor}) => (
+              <Ionicons
+                name={'ios-trending-up'}
+                size={26}
+                style={{color: tintColor}}
+              />
+            ),
+          },
+        },
+
+        MyPage: {
+          screen: MyPage,
+          navigationOptions: {
+            tarBarLabel: '我的',
+            tabBarIcon: ({tintColor}) => (
+              <Ionicons
+                name={'ios-person'}
+                size={26}
+                style={{color: tintColor}}
+              />
+            ),
+          },
+        },
+        FavoritePage: {
+          screen: FavoritePage,
+          navigationOptions: {
+            tarBarLabel: '个人',
+            tabBarIcon: ({tintColor}) => (
+              <Ionicons
+                name={'ios-star'}
+                size={26}
+                style={{color: tintColor}}
+              />
+            ),
+          },
+        },
+      },
+      {
+        tabBarOptions: {
+          activeTintColor: 'red',
+        },
+        barStyle: {backgroundColor: 'red'},
+      },
     );
   }
-}
-const styles = StyleSheet.create({});
 
-export default Homepage;
+  render() {
+    NavigationUtil.navigation = this.props.navigation;
+    const Tab = createAppContainer(this._getBottom());
+    return <Tab />;
+  }
+}
