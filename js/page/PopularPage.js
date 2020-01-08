@@ -62,7 +62,7 @@ class PopularTab extends Component<Props> {
               'DetailPage',
             );
           }}>
-          12131
+          跳转到详情页
         </Text>
       </View>
     );

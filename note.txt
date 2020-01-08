@@ -1,0 +1,29 @@
+1.tarbarComponent extends React.Component{
+
+  conc(){
+    super();
+    this.theme={
+      tintColor:Props.activeTintColor,
+      updataT:new Date().getTime()
+    }
+  }
+}
+  
+2.BottomTabBar
+
+
+3.return
+  <BottomTabBar
+    {...this.props}
+    activeTintColor={this.theme.tintColor||this.props.activeTintColor}
+
+  />
+
+
+4.const {routes,index}=this.prop.navigation.state;
+  if(routes[index].params){
+    const {theme}=routes[index].theme
+    if(theme&&theme.getTime()>this.theme.updateT){
+      this.theme=theme;
+    }
+  }
