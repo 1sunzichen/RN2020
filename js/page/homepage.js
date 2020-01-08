@@ -88,6 +88,7 @@ export default class HomePage extends Component<Props> {
   }
 
   render() {
+    // 1.先把当前 拥有其他同级路由 的 路由属性 赋给 路由插件
     NavigationUtil.navigation = this.props.navigation;
     const Tab = createAppContainer(this._getBottom());
     return <Tab />;

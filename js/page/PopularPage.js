@@ -57,7 +57,7 @@ class PopularTab extends Component<Props> {
         <Text
           onPress={() => {
             NavigationUtil.goPage(
-              //这块要换成 路由插件 存贮的路由
+              //2:这块要换成 路由插件 存贮的路由  换不换都行 插件会再次处理
               {navigation: NavigationUtil.navigation},
               'DetailPage',
             );

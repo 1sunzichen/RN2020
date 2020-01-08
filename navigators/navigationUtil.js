@@ -1,7 +1,8 @@
 export default class NavigationUtil {
   static goPage(params, page) {
     //const navigation = NavigationUtil.navigation;
-    const navigation = NavigationUtil.navigation;
+    // 3:直接读取 或者 间接获得都可以 因为传过来了
+    const navigation = params.navigation;
     if (!navigation) {
       console.log('null');
       return;
