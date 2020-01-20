@@ -7,17 +7,17 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Platform} from 'react-native';
-import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {createAppContainer} from 'react-navigation';
-import PopularPage from './PopularPage';
-import MyPage from './MyPage';
-import TrendingPage from './TrendingPage';
-import FavoritePage from './FavoritePage';
-import NavigationUtil from '../../navigators/navigationUtil';
-import Dyna from '../../navigators/DynamicTavNavi';
+// import {View, Text, StyleSheet, Platform} from 'react-native';
+// import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+// import {createBottomTabNavigator} from 'react-navigation-tabs';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+// import {createAppContainer} from 'react-navigation';
+// import PopularPage from './PopularPage';
+// import MyPage from './MyPage';
+// import TrendingPage from './TrendingPage';
+// import FavoritePage from './FavoritePage';
+import NavigationUtil from '../navigators/navigationUtil';
+import Dyna from '../navigators/DynamicTavNavi';
 type Props = {};
 
 export default class HomePage extends Component<Props> {

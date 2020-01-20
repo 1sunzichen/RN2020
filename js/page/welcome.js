@@ -9,7 +9,7 @@
 import React, {Component} from 'react';
 
 import {StyleSheet, View, Text} from 'react-native';
-import myNavigation from '../../navigators/navigationUtil';
+import myNavigation from '../navigators/navigationUtil';
 
 class Welcome extends Component {
   componentDidMount() {

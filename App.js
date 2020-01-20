@@ -16,41 +16,46 @@ import {
   Button,
   View,
 } from 'react-native';
-
+import {Provider} from 'react-redux';
+import store from './js/store';
+import AppNavigator from './js/navigators/AppNavigator';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 class App extends Component {
   render() {
-    const {navigation} = this.props;
+    // const {navigation} = this.props;
     return (
-      <View>
-        {/* <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-             <NameStyle />
-          </ScrollView>
-        </SafeAreaView> */}
-        <Button
-          title={'FlatListDemo'}
-          onPress={() => {
-            navigation.navigate('FlatListDemo');
-          }}
-        />
-        <Button
-          title={'SwipperFlatListDemo'}
-          onPress={() => {
-            navigation.navigate('SwipperFlatListDemo');
-          }}
-        />
-        <Button
-          title={'SectionFlatListDemo'}
-          onPress={() => {
-            navigation.navigate('SectionFlatListDemo');
-          }}
-        />
-      </View>
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+      // <View>
+      //   {/* <StatusBar barStyle="dark-content" />
+      //   <SafeAreaView>
+      //     <ScrollView
+      //       contentInsetAdjustmentBehavior="automatic"
+      //       style={styles.scrollView}>
+      //        <NameStyle />
+      //     </ScrollView>
+      //   </SafeAreaView> */}
+      //   <Button
+      //     title={'FlatListDemo'}
+      //     onPress={() => {
+      //       navigation.navigate('FlatListDemo');
+      //     }}
+      //   />
+      //   <Button
+      //     title={'SwipperFlatListDemo'}
+      //     onPress={() => {
+      //       navigation.navigate('SwipperFlatListDemo');
+      //     }}
+      //   />
+      //   <Button
+      //     title={'SectionFlatListDemo'}
+      //     onPress={() => {
+      //       navigation.navigate('SectionFlatListDemo');
+      //     }}
+      //   />
+      // </View>
     );
   }
 }
