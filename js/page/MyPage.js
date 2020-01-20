@@ -7,120 +7,79 @@
  */
 
 import React, {Component} from 'react';
-import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import NavigationUtil from '../navigators/navigationUtil';
-import {View, Text, StyleSheet, Button} from 'react-native';
-import {createAppContainer} from 'react-navigation';
+import {View, Text, StyleSheet, Button,TouchableOpacity} from 'react-native';
+import Actions from '../action';
+import {connect} from 'react-redux';
+import NavigationBarDiy from '../common/NavigationBar';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+const THEME_COLOR="#678";
+class  MyPage extends Component {
+  getRightButton(){
+    return <View style={{flexDirection:"row"}}>
+      <TouchableOpacity
+      onPress={()=>{
 
-type Props = {};
-class MyPage extends Component<Props> {
-  constructor(props) {
-    super(props);
-    this.TabNames = ['GOD', 'Dog', '1212', '1212', '12121212'];
+      }}>
+        <View style={{padding:5,marginRight:8}}>
+            <Feather
+              name={'search'}
+              size={24}
+              style={{color:"white"}}
+            />
+        </View>
+      </TouchableOpacity>
+    </View>
   }
-  _genTabs() {
-    const Tabs = {};
-    this.TabNames.map((item, index) => {
-      Tabs[`tab${index}`] = {
-        //传递参数 props => <PopularTab {...props} Tablabel={item} />,
-        screen: props => <PopularTab {...props} Tablabel={item} />,
-        navigationOptions: {
-          title: item,
-        },
-      };
-    });
-    return Tabs;
+  getLeftButton(callback){
+    return <TouchableOpacity
+        style={{padding:8,paddingLeft:12}}
+        onPress={callback}
+    >
+      <Ionicons
+          name={'ios-arrow-back'}
+          size={26}
+          
+      />
+    
+    </TouchableOpacity>
   }
-
   render() {
-    const TabNavigator = createMaterialTopTabNavigator(this._genTabs(), {
-      tabBarOptions: {
-        upperCaseLabel: false,
-        scrllEnabled: true, //是否滚动
-        tabStyle: {
-          minWidth: 50,
-          upperCaseLabel: false,
-        },
-        style: {
-          paddingTop: 32,
-          backgroundColor: '#567',
-        },
-        indicatorStyle: {
-          height: 2,
-          backgroundColor: '#456',
-        }, //标签指示器的样式
-        labelStyle: {
-          fontSize: 23,
-        }, //文件样式
-      },
-    });
-    const Tab = createAppContainer(TabNavigator);
-    return <Tab style={styles.sectionContainerTab} />;
-  }
-}
-class PopularTab extends Component<Props> {
-  render() {
-    const {Tablabel} = this.props;
+    let statusBar={
+      backgroundColor:THEME_COLOR,
+      barStyle:'light-content'
+    }
+    let barMy=<NavigationBarDiy
+          title="我的"
+          statusBar={statusBar}
+          style={{backgroundColor:THEME_COLOR}}
+          rightButton={this.getRightButton()}
+          leftButton={this.getLeftButton()}
+    />
+    
     return (
-      <View style={styles.sectionContainerTab}>
-        <Text>{Tablabel}</Text>
-        <Text
-          onPress={() => {
-            NavigationUtil.goPage(
-              //2:这块要换成 路由插件 存贮的路由  换不换都行 插件会再次处理
-              {navigation: NavigationUtil.navigation},
-              'DetailPage',
-            );
-          }}>
-          跳转到详情页
-        </Text>
-        <Button
-          title="fetch"
-          onPress={() => {
-            NavigationUtil.goPage(
-              //2:这块要换成 路由插件 存贮的路由  换不换都行 插件会再次处理
-              {navigation: NavigationUtil.navigation},
-              'FetchPage',
-            );
-          }}
-        />
-        <Button
-          title="AsyncPage"
-          onPress={() => {
-            NavigationUtil.goPage(
-              //2:这块要换成 路由插件 存贮的路由  换不换都行 插件会再次处理
-              {navigation: NavigationUtil.navigation},
-              'AsyncPageDemo',
-            );
-          }}
-        />
-        <Button
-          title="DataStorePage"
-          onPress={() => {
-            NavigationUtil.goPage(
-              //2:这块要换成 路由插件 存贮的路由  换不换都行 插件会再次处理
-              {navigation: NavigationUtil.navigation},
-              'DataStorePage',
-            );
-          }}
-        />
+      <View style={styles.sectionContainer}>
+        {barMy}
+        <Text style={styles.sectionText}>MyPage</Text>
       </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
-  sectionContainerTab: {
-    marginTop: 50,
-  },
   sectionContainer: {
-    marginTop: 320,
-    paddingHorizontal: 24,
+    marginTop: 30,
+    flex:1
   },
   sectionText: {
     textAlign: 'center',
     fontSize: 30,
   },
 });
-
-export default MyPage;
+const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({
+  onThemeChange: theme => dispatch(Actions.onThemeChange(theme)),
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MyPage);
