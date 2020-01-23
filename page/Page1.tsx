@@ -17,7 +17,7 @@ import {
   render(){
 
     const {navigation}=this.props;
-    console.log(navigation,"1111");
+ 
     
     return(
       <View style={{flexDirection:"column",flexWrap:"wrap",backgroundColor:"#ff0",height:500

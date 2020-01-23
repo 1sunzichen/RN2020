@@ -57,17 +57,19 @@ class PopularPage extends Component<Props> {
       swipeEnabled:true,
       tabBarOptions: {
         upperCaseLabel: false,
-        scrllEnabled: false, //是否滚动
+        scrollEnabled: true, //是否滚动
         tabStyle: {
-          minWidth: 120,
+          //minWidth: 120,
           width:"auto",
           upperCaseLabel: false,
         },
         style: {
-          paddingTop: 32,
+          // paddingTop:20,
           backgroundColor: '#567',
+          height:50
         },
         indicatorStyle: {
+          
           height: 2,
           backgroundColor: '#456',
         }, //标签指示器的样式
@@ -77,7 +79,7 @@ class PopularPage extends Component<Props> {
       },
     });
     const Tab = createAppContainer(TabNavigator);
-    return (<View style={{flex:1,marginTop:30}}>
+    return (<View style={{flex:1}}>
             
          {barHot}
           <Tab style={styles.sectionContainerTab} />
@@ -115,9 +117,7 @@ class PopularTab extends Component<Props> {
     const {onLoadPopularData,onLoadMorePopular}=this.props;
     const store=this._store();
     const url=this.getFetchUrl(this.storeName);
-    console.log('====================================');
-    console.log(this.storeName,"🐯",store);
-    console.log('====================================');
+
     if(loadMore){
       onLoadMorePopular(this.storeName,++(store.pageIndex),pageSize,store.items,callback=>{
         this.refs.toast.show("没有更多了")
@@ -153,9 +153,7 @@ class PopularTab extends Component<Props> {
   }
   render() {
     const {popular} = this.props;
-    console.log('====================================');
-    console.log(popular,this.storeName,'🐂');
-    console.log('====================================');
+
     let store=this._store();
     return (
       <View style={styles.sectionContainerTab}>

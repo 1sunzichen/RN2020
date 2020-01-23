@@ -32,16 +32,12 @@ class AsyncStorageDemo extends Component<Props> {
 
   }
   doData=async()=>  {
-    console.log('====================================');
-    console.log(AsyncStorage);
-    console.log('====================================');
+ 
    await AsyncStorage.getItem(KEY,(error,value)=>{
      this.setState({
        showText:value
      })
-     console.log('====================================');
-     console.log(value);
-     console.log('====================================');
+  
      error&&console.log(error.toString())
    })
     

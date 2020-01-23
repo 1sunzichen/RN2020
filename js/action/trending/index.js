@@ -4,29 +4,23 @@ import DataStore from '../../expand/dao/dataStore';
 import {FALG_STORAGE} from '../../expand/dao/dataStore';
 import {handleData} from '../ActionUtil';
 // 第一次加载
-export function onLoadPopularData(storeName,url,pageSize) {
+export function onLoadTrendingData(storeName,url,pageSize) {
   return dispatch=>{
-    dispatch({type:Types.POPULAR_REF,storeName})
+    dispatch({type:Types.TRENDING_REF,storeName})
+    
     let dataStore=new DataStore();
-    //  这个是 离线缓存 要传输的类型   trending 还是 popular 
-    // 之后 是 用来 请求 不同的api 
-    dataStore.fetchData(url,FALG_STORAGE.flag_popular)
+    dataStore.fetchData(url,FALG_STORAGE.flag_trending)
     .then(data=>{
       // 第一次加载
-      // console.log('====================================');
-      // console.log(dispatch,storeName,data,pageSize,"🐘");
-      // console.log('====================================');
-       // 这个是 请求api后  action 对类型 细分  将数据 扁平化 
-       // 就没有 大类型 trending 和 popular 之分 不过 是包括 所有的
-       // 类型的 
-        handleData(Types.LOAD_POPULAR_SUC,dispatch,storeName,data,pageSize)
+        // console.log('====================================');
+        // console.log(data,"abcdefg",Types.LOAD_TRENDING_SUC);
+        // console.log('====================================');
+        handleData(Types.LOAD_TRENDING_SUC,dispatch,storeName,data,pageSize)
     })
     .catch((error)=>{
-      // console.log('====================================');
-      // console.log(error,"error");
-      // console.log('====================================');
+
       dispatch({
-        type:Types.LOAD_POPULAR_FAIL,
+        type:Types.LOAD_TRENDING_FAIL,
         storeName,
         error
       })
@@ -34,7 +28,7 @@ export function onLoadPopularData(storeName,url,pageSize) {
   }
 }
 // 加载更多
-export function onLoadMorePopularData(storeName,pageIndex,pageSize,
+export function onLoadMoreTrendingData(storeName,pageIndex,pageSize,
 dataArray=[],callBack) {
   //dataArray 总数据
   return dispatch=>{
@@ -46,7 +40,7 @@ dataArray=[],callBack) {
          callBack("no more")
        }
        dispatch({
-         type:Types.LOADMORE_POPULAR_FAIL,
+         type:Types.LOADMORE_TRENDING_FAIL,
          error:'mo more',
          storeName:storeName,
          pageIndex:--pageIndex,
@@ -56,7 +50,7 @@ dataArray=[],callBack) {
        let max=pageSize*pageIndex>dataArray.length?
        dataArray.length:pageSize*pageIndex;
        dispatch({
-         type:Types.LOADMORE_POPULAR_SUC,
+         type:Types.LOADMORE_TRENDING_SUC,
          storeName,
          pageIndex,
          // 分页数据

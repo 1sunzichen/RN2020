@@ -1,11 +1,15 @@
 import AsyncStorage from '@react-native-community/async-storage';
+// github 趋势的 情况
+import GitHubTrend from 'GitHubTrending';
+export const FALG_STORAGE={
+  flag_trending:"trending",
+  flag_popular:"popular"
+}
 export default class DataStore{
   // 保存方法
   saveData(url,data,callback){
     if(!data||!url) return;
-    console.log('====================================');
-    console.log(JSON.stringify(this._wrapData(data)));
-    console.log('====================================');
+
     AsyncStorage.setItem(url,JSON.stringify(this._wrapData(data)),callback);
   }
 
@@ -24,6 +28,9 @@ export default class DataStore{
         if(!error){
           try{
             resolve(JSON.parse(result))
+            console.log('====================================');
+            console.log(result,'abcde');
+            console.log('====================================');
           }catch(e){
             reject(e);
             console.error(e)
@@ -37,8 +44,10 @@ export default class DataStore{
     })
   }
   // 获取网络数据
-  fetchNetData(url){
+  fetchNetData(url,flag){
     return new Promise((resolve,reject)=>{
+      if(flag!=FALG_STORAGE.flag_trending){
+
       fetch(url)
         .then((response)=>{
           if(response.ok){
@@ -52,27 +61,45 @@ export default class DataStore{
         .catch((error)=>{
           reject(error);
         })
-    })
+    }
+      else{
+        new GitHubTrend().fetchTrending(url)
+        .then(items=>{
+          console.log('====================================');
+          console.log(url,items,"abcd");
+          console.log('====================================');
+          if(!items){
+            throw new Error('responseData is null');
+          }
+          this.saveData(url,items);
+          resolve(items);
+        })
+        .catch(error=>{
+          reject(error)
+        })
+      }
+      })
   }
 
   //入口方法
-  fetchData(url){
+  fetchData(url,flag){
     return new Promise((resolve,reject)=>{
       this.fetchLocalData(url).then((wrapData)=>{
         console.log('====================================');
-        console.log(JSON.stringify(wrapData),"wrapData",wrapData.timestamp);
+        console.log(wrapData,'abcdef');
         console.log('====================================');
         if(wrapData&&DataStore.checkTimestampVaild(wrapData.timestamp)){
           resolve(wrapData)
         }else{
-          this.fetchNetData(url).then((data)=>{
+          this.fetchNetData(url,flag).then((data)=>{
+         
             resolve(this._wrapData(data))
           }).catch((error)=>{
             reject(error)
           })
         }
       }).catch((error)=>{
-        this.fetchNetData(url).then((data)=>{
+        this.fetchNetData(url,flag).then((data)=>{
           resolve(this._wrapData(data))
         }).catch(error=>{
           reject(error);

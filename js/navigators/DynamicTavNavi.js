@@ -70,7 +70,7 @@ class DynamicTab extends Component<Props> {
 
   _getBottom() {
     const {PopularPage, TrendingPage, FavoritePage, MyPage} = BottomTab;
-    console.log(this.props, 'propss');
+
 
     const tabs = {PopularPage, TrendingPage, FavoritePage,MyPage};
     //PopularPage.navigationOptions.tabBarLabel = '最新';
