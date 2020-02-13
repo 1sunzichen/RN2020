@@ -2,37 +2,26 @@ import React,{Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity,TextInput, Button,
 Image} from 'react-native';
 import HTMLView from 'react-native-htmlview'
+import BaseItem from './BaseItem.js';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-class TrendingItem extends Component{
+class TrendingItem extends BaseItem{
 render(){
-     const {item}=this.props;
-      let description=`<p>${item.description}</p>`
-     let favoriteButton=<TouchableOpacity
-      style={{padding:6}}
-      onPress={()=>{
-
-      }}
-      underlayColor={"transparent"}
-     >
-        <FontAwesome
-          name={'star-o'}
-          size={26}
-          style={{color:"red",
-          lineHeight:26}}
-        />
-        
-     </TouchableOpacity>;
-
-     //if(!item||!item.owner) return null;
+     const {projectModel}=this.props;
+     const {item}=projectModel
+     
+     if(!item) return null;
+     console.log(item,"🐖🐖🐖");
+    let description=`<p>${item.description}</p>`
+    let abc=item.contributors.filter((i)=>{
+      i.indexOf('http')!==-1
+    })
      return(
            <TouchableOpacity
-            onPress={()=>{
-              this.props.onSelect
-            }}
+             onPress={() => this.onItemClick()}
            >
             <View style={styles.cell_container}>
               <Text style={styles.title}>
-                {item.fullName}
+                <HTMLView value={item.fullName}/>
               </Text>
               <HTMLView
                 value={description}
@@ -52,7 +41,7 @@ render(){
                 <View style={{flexDirection:'row',justifyContent:"space-between",
                 paddingTop:10}}>
                   <Text>Author:</Text>
-                  {item.contributors.map((result,i,arr)=>{
+                  {abc.map((result,i,arr)=>{
                     return <Image
                       key={i}
                       style={{height:22,width:22,margin:2}}
@@ -68,7 +57,8 @@ render(){
                 </View>
                 <View>
                 <View style={{flexDirection:'row',justifyContent:"space-between"}}>
-                 {favoriteButton}
+                 {/* {favoriteButton} */}
+                 {this._favoriteIcon()}
                 </View>
                 </View>
               </View>

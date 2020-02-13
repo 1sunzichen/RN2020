@@ -1,6 +1,8 @@
 import Types from '../../action/types';
 const defaultState={};
 export default function onAction(state=defaultState,action) {
+  console.log(action,"actionReducer");
+  
   switch (action.type) {
     //下拉刷新
   case Types.LOAD_POPULAR_SUC:
@@ -12,8 +14,8 @@ export default function onAction(state=defaultState,action) {
         items:action.items,//接受原始数据
         isLoading:false,// 上拉刷新的状态
         pageIndex:action.pageIndex,// 第几页
-        hideLoadingMore:false,// 下拉加载的状态
-        projectModes:action.projectModes,//此次要展示的数据
+        hideLoadingMore:action.items.length<10,// 下拉加载的状态
+        projectModels:action.projectModels,//此次要展示的数据
       }
     }
   case Types.POPULAR_REF://下拉刷新
@@ -40,7 +42,7 @@ export default function onAction(state=defaultState,action) {
         ...state,
         [action.storeName]:{
           ...state[action.storeName],
-          projectModes:action.projectModes,
+          projectModels:action.projectModels,
           hideLoadingMore:false,
           pageIndex:action.pageIndex
         }

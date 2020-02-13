@@ -19,15 +19,22 @@ import Toast from 'react-native-easy-toast';
 import Actions from '../action';
 import PopularItem from '../common/PopularItem.js';
 import NavigationBarDiy from '../common/NavigationBar';
+import FavoriteDao from '../expand/dao/FavoriteDao.js';
+import {FALG_STORAGE} from '../expand/dao/dataStore.js';
+import FavoriteUtil from "../util/FavoriteUtil.js"
 const URL=`https://api.github.com/search/repositories?q=`;
 const QUERY_STR="&sort=stars";
 const THEME_COLOR='#678';
+const favoriteDao=new FavoriteDao(FALG_STORAGE.flag_popular);
+console.log(favoriteDao,"favoriteDaofavoriteDaofavoriteDao");
+
 const pageSize=10;
 type Props = {};
 class PopularPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.TabNames = ['JAVA', 'Android', 'iOS', 'React', 'ReactNative'];
+
   }
   _genTabs() {
     const Tabs = {};
@@ -100,12 +107,14 @@ class PopularTab extends Component<Props> {
   }
   _store(){
     const {popular}=this.props;
+  
+    
     let store=popular[this.storeName];
     if(!store){
       store={
         items:[],
         isLoading:false,
-        projectModes:[],
+        projectModels:[],
         hideLoadingMore:true,
         pageIndex:1,
       }
@@ -119,28 +128,39 @@ class PopularTab extends Component<Props> {
     const url=this.getFetchUrl(this.storeName);
 
     if(loadMore){
-      onLoadMorePopular(this.storeName,++(store.pageIndex),pageSize,store.items,callback=>{
+      onLoadMorePopular(this.storeName,++(store.pageIndex),pageSize,store.items,favoriteDao,callback=>{
         this.refs.toast.show("没有更多了")
       } );
 
     }else{
-      onLoadPopularData(this.storeName,url,pageSize);
+      onLoadPopularData(this.storeName,url,pageSize,favoriteDao);
 
     }
   }
   getFetchUrl(key){
     return URL+key+QUERY_STR;
   }
+  goPage(item){
+    console.log("error");
+    
+    NavigationUtil.goPage({
+              projectModel:item
+            },'DetailPage')
+  }
   renderItem(data){
     const item=data.item;
+
     // return <View>
     //     <Text >{JSON.stringify(item)}</Text>
     // </View>
     return <PopularItem
-          item={item}
+          projectModel={item}
           onSelect={()=>{
-
+           this.goPage(item)
           }}
+          //传入 favoriteDao 方法 存贮 或 移除 项目 
+          onFavorite={(item,isFavorite)=>FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,FALG_STORAGE.flag_popular)}
+
     />
   }
   getIndic() {
@@ -155,12 +175,14 @@ class PopularTab extends Component<Props> {
     const {popular} = this.props;
 
     let store=this._store();
+    console.log(store,"zuireStore");
+    
     return (
       <View style={styles.sectionContainerTab}>
         <FlatList
-          data={store.projectModes}
+          data={store.projectModels}
           renderItem={data=>this.renderItem(data)}
-          keyExtractor={item=>""+item.id}
+          keyExtractor={item=>""+item.item.id}
           refreshControl={
             <RefreshControl
               title={"loading"}
@@ -183,9 +205,9 @@ class PopularTab extends Component<Props> {
           
           onScrollBeginDrag={()=>{
             this.canLoadMore=true;
-            console.log('====================================');
-            console.log('---ononMomentumScrollBegin');
-            console.log('====================================');
+            // console.log('====================================');
+            // console.log('---ononMomentumScrollBegin');
+            // console.log('====================================');
           }}
           onEndReachedThreshold={0.5}
         /> 
@@ -218,9 +240,10 @@ const mapStateToProps=state=>({
   popular:state.popular,
 })
 // action 请求的方法
+
 const mapDispatchToProps=dispatch=>({
-  onLoadPopularData:(storeName,url,pageSize)=>dispatch(Actions.onLoadPopularData(storeName,url,pageSize)),
-  onLoadMorePopular:(storeName,pageIndex,pageSize,items,callback)=>dispatch(Actions.onLoadMorePopularData(storeName,pageIndex,pageSize,items,callback)),
+  onLoadPopularData:(storeName,url,pageSize,favoriteDao)=>dispatch(Actions.onLoadPopularData(storeName,url,pageSize,favoriteDao)),
+  onLoadMorePopular:(storeName,pageIndex,pageSize,items,favoriteDao,callback)=>dispatch(Actions.onLoadMorePopularData(storeName,pageIndex,pageSize,items,favoriteDao,callback)),
 })
 const PopularTabPage=connect(mapStateToProps,mapDispatchToProps)(PopularTab);
 

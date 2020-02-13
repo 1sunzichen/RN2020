@@ -15,4 +15,4 @@ const logger = store => next => action => {
 };
 const middlewares = [middleware, thunk, logger];
 
-export default createStore(reducers, applyMiddleware(...middlewares),);
+export default createStore(reducers, applyMiddleware(...middlewares));

@@ -2,9 +2,11 @@ import Types from '../types';
 import _ from 'lodash';
 import DataStore from '../../expand/dao/dataStore';
 import {FALG_STORAGE} from '../../expand/dao/dataStore';
-import {handleData} from '../ActionUtil';
-// 第一次加载
-export function onLoadPopularData(storeName,url,pageSize) {
+import {handleData,_projectModels} from '../ActionUtil';
+// 第一次加载 刷新 
+export function onLoadPopularData(storeName,url,pageSize,favoriteDao) {
+ 
+  
   return dispatch=>{
     dispatch({type:Types.POPULAR_REF,storeName})
     let dataStore=new DataStore();
@@ -19,7 +21,7 @@ export function onLoadPopularData(storeName,url,pageSize) {
        // 这个是 请求api后  action 对类型 细分  将数据 扁平化 
        // 就没有 大类型 trending 和 popular 之分 不过 是包括 所有的
        // 类型的 
-        handleData(Types.LOAD_POPULAR_SUC,dispatch,storeName,data,pageSize)
+        handleData(Types.LOAD_POPULAR_SUC,dispatch,storeName,data,pageSize,favoriteDao)
     })
     .catch((error)=>{
       // console.log('====================================');
@@ -35,7 +37,7 @@ export function onLoadPopularData(storeName,url,pageSize) {
 }
 // 加载更多
 export function onLoadMorePopularData(storeName,pageIndex,pageSize,
-dataArray=[],callBack) {
+dataArray=[],favoriteDao,callBack) {
   //dataArray 总数据
   return dispatch=>{
     //模拟网络请求
@@ -50,18 +52,22 @@ dataArray=[],callBack) {
          error:'mo more',
          storeName:storeName,
          pageIndex:--pageIndex,
-         projectModes:dataArray
+     
        })
      }else{
        let max=pageSize*pageIndex>dataArray.length?
        dataArray.length:pageSize*pageIndex;
-       dispatch({
-         type:Types.LOADMORE_POPULAR_SUC,
-         storeName,
-         pageIndex,
-         // 分页数据
-         projectModes:dataArray.slice(0,max)
-       })
+
+        _projectModels(dataArray.slice(0,max),favoriteDao,data=>{
+
+        dispatch({
+          type:Types.LOADMORE_POPULAR_SUC,
+          storeName,
+          pageIndex,
+          // 分页数据
+          projectModels:data
+        })
+        })
      }
    }, 100);
   }

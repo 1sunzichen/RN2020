@@ -11,6 +11,7 @@ const StatusBarShape={
   hidden:PropTypes.bool,
   backgroundColor:PropTypes.string
 }
+// 头部公共样式
 class NavigationBar extends Component{
 
   //类型检查

@@ -2,7 +2,7 @@ import Types from '../types';
 import _ from 'lodash';
 import DataStore from '../../expand/dao/dataStore';
 import {FALG_STORAGE} from '../../expand/dao/dataStore';
-import {handleData} from '../ActionUtil';
+import {handleData,_projectModels} from '../ActionUtil';
 // 第一次加载
 export function onLoadTrendingData(storeName,url,pageSize) {
   return dispatch=>{
@@ -15,10 +15,16 @@ export function onLoadTrendingData(storeName,url,pageSize) {
         // console.log('====================================');
         // console.log(data,"abcdefg",Types.LOAD_TRENDING_SUC);
         // console.log('====================================');
-        handleData(Types.LOAD_TRENDING_SUC,dispatch,storeName,data,pageSize)
+          if(data.data&&data.data.length<pageSize){
+          handleData(Types.LOAD_TRENDING_SUC,dispatch,storeName,data,data.data.length,favoriteDao)
+          }else{
+
+          handleData(Types.LOAD_TRENDING_SUC,dispatch,storeName,data,pageSize,favoriteDao)
+          }
+      
     })
     .catch((error)=>{
-
+      
       dispatch({
         type:Types.LOAD_TRENDING_FAIL,
         storeName,
@@ -29,7 +35,7 @@ export function onLoadTrendingData(storeName,url,pageSize) {
 }
 // 加载更多
 export function onLoadMoreTrendingData(storeName,pageIndex,pageSize,
-dataArray=[],callBack) {
+dataArray=[],favoriteDao,callBack) {
   //dataArray 总数据
   return dispatch=>{
     //模拟网络请求
@@ -44,18 +50,20 @@ dataArray=[],callBack) {
          error:'mo more',
          storeName:storeName,
          pageIndex:--pageIndex,
-         projectModes:dataArray
+         projectModels:dataArray
        })
      }else{
        let max=pageSize*pageIndex>dataArray.length?
        dataArray.length:pageSize*pageIndex;
-       dispatch({
-         type:Types.LOADMORE_TRENDING_SUC,
-         storeName,
-         pageIndex,
-         // 分页数据
-         projectModes:dataArray.slice(0,max)
-       })
+        _projectModels(dataArray.slice(0,max),favoriteDao,data=>{
+          dispatch({
+            type:Types.LOADMORE_TRENDING_SUC,
+            storeName,
+            pageIndex,
+            // 分页数据
+            projectModels:data
+          })
+        })
      }
    }, 100);
   }

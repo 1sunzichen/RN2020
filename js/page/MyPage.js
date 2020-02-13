@@ -19,7 +19,9 @@ class  MyPage extends Component {
     return <View style={{flexDirection:"row"}}>
       <TouchableOpacity
       onPress={()=>{
-
+        console.log('====================================');
+        console.log(12121);
+        console.log('====================================');
       }}>
         <View style={{padding:5,marginRight:8}}>
             <Feather

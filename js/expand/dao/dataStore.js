@@ -28,9 +28,7 @@ export default class DataStore{
         if(!error){
           try{
             resolve(JSON.parse(result))
-            console.log('====================================');
-            console.log(result,'abcde');
-            console.log('====================================');
+            
           }catch(e){
             reject(e);
             console.error(e)
@@ -65,9 +63,9 @@ export default class DataStore{
       else{
         new GitHubTrend().fetchTrending(url)
         .then(items=>{
-          console.log('====================================');
-          console.log(url,items,"abcd");
-          console.log('====================================');
+          // console.log('====================================');
+          // console.log(url,items,"abcd");
+          // console.log('====================================');
           if(!items){
             throw new Error('responseData is null');
           }
@@ -85,16 +83,21 @@ export default class DataStore{
   fetchData(url,flag){
     return new Promise((resolve,reject)=>{
       this.fetchLocalData(url).then((wrapData)=>{
-        console.log('====================================');
-        console.log(wrapData,'abcdef');
-        console.log('====================================');
+        // console.log('====================================');
+        // console.log(wrapData,'fetchLocalData');
+        // console.log('====================================');
         if(wrapData&&DataStore.checkTimestampVaild(wrapData.timestamp)){
           resolve(wrapData)
         }else{
           this.fetchNetData(url,flag).then((data)=>{
-         
+        //   console.log('====================================');
+        // console.log(wrapData,'fetchNetData');
+        // console.log('====================================');
             resolve(this._wrapData(data))
           }).catch((error)=>{
+            // console.log('====================================');
+            // console.log('fetchNetDataError',error);
+            // console.log('====================================');
             reject(error)
           })
         }

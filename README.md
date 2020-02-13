@@ -13,3 +13,13 @@
 #### 组件介绍
 #### react-native-htmlview HTML标签识别组件
 #### DeviceInfo 设备是否运行在iphoneX 上
+
+### 7-8 详情页开发
+
+##### 打开详情页 detailPage  
+###### 先设计 头部  （引入类似 popular的页面）
+###### 然后
+
+###### issue 汇总 
+###### 1.react native AsyncStorage firebase JSON value '<null>' of type NSNull cannot be converted to NSString
+###### 原因（漏传参数）
