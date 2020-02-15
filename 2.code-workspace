@@ -8,7 +8,15 @@
 		},
 		{
 			"path": "/Users/ekko/Desktop/github_advanced"
+		},
+		{
+			"path": "/Users/ekko/Public/pro/练习专用/算法题"
+		},
+		{
+			"path": "/Users/ekko/Public/pro/练习专用/chatByRedux"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "算法题"
+	}
 }

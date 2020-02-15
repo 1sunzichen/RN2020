@@ -21,5 +21,5 @@
 ###### 然后
 
 ###### issue 汇总 
-###### 1.react native AsyncStorage firebase JSON value '<null>' of type NSNull cannot be converted to NSString
+###### 1.react native AsyncStorage firebase JSON value '<null>' of type NSNull cannot be converted to NSString3
 ###### 原因（漏传参数）
