@@ -80,12 +80,7 @@ class FavoritePage extends Component<Props> {
       swipeEnabled:true,
       tabBarOptions: {
         upperCaseLabel: false,
-        scrollEnabled: true, //是否滚动
-        tabStyle: {
-          //minWidth: 120,
-          width:"auto",
-          upperCaseLabel: false,
-        },
+        // scrollEnabled: true, //是否滚动
         style: {
           // paddingTop:20,
           backgroundColor: '#567',
