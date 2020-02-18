@@ -23,3 +23,17 @@
 ###### issue 汇总 
 ###### 1.react native AsyncStorage firebase JSON value '<null>' of type NSNull cannot be converted to NSString3
 ###### 原因（漏传参数）
+
+### 8-5 跳转组件通信    详情页 和 列表页 状态的同步
+##### 第一步 在跳转 到 组件之前 在跳转方法中 设置 传递 的 回调函数
+###### js/page/PopularPage.js    onSelect 中 传入 callback 函数
+##### 第二步 列表的子组件 点击本身 的时候 传入 具体的回调函数 
+###### js/common/PopularItem.js  在 TouchableOpacity组件的 onItemClick 方法 
+###### 以及 js/common/BaseItem.js  中 onItemClick 的具体实现
+##### 第三步 路由跳转 将 方法传入
+##### 第四步 在 页面需要同步的 方法中 进行调用 
+###### js/page/detailPage.js 同步方法 onFavoriteButtonClick 调用 callback(isFavorite);
+
+### 8-6 先建立一个页面
+#### 1增加 action 类型
+#### 2创建 相关reducer 

@@ -37,7 +37,7 @@ class TrendingPage extends Component<Props> {
   constructor(props) {
     super(props);
 
-    this.TabNames = [ 'C','python','asp','rust','JavaScript','vue'];
+    this.TabNames = [ 'C','python','asp','JavaScript','vue','rust'];
     this.state={
       timeSpan:TimeSpans[0],
  
@@ -237,9 +237,11 @@ class TrendingTab extends Component<Props> {
     // </View>
     return <TrendingItem
           projectModel={item}
-          onSelect={()=>{
+          onSelect={(callback)=>{
             NavigationUtil.goPage({
-              projectModel:item
+              projectModel:item,
+              flag:FALG_STORAGE.flag_trending,
+              callback
             },'DetailPage')
           }}
           onFavorite={(item,isFavorite)=>FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,FALG_STORAGE.flag_trending)}

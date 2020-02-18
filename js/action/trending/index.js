@@ -4,7 +4,7 @@ import DataStore from '../../expand/dao/dataStore';
 import {FALG_STORAGE} from '../../expand/dao/dataStore';
 import {handleData,_projectModels} from '../ActionUtil';
 // 第一次加载
-export function onLoadTrendingData(storeName,url,pageSize) {
+export function onLoadTrendingData(storeName,url,pageSize,favoriteDao) {
   return dispatch=>{
     dispatch({type:Types.TRENDING_REF,storeName})
     
@@ -16,6 +16,8 @@ export function onLoadTrendingData(storeName,url,pageSize) {
         // console.log(data,"abcdefg",Types.LOAD_TRENDING_SUC);
         // console.log('====================================');
           if(data.data&&data.data.length<pageSize){
+            console.log(data.data.length,"1111");
+            
           handleData(Types.LOAD_TRENDING_SUC,dispatch,storeName,data,data.data.length,favoriteDao)
           }else{
 

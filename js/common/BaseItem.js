@@ -35,6 +35,7 @@ class BaseItem extends Component{
     }
 
     onItemClick() {
+      // 子组件跳转 调用 父组件 方法 传过去这个方法
         this.props.onSelect(isFavorite => {
             this.setFavoriteState(isFavorite);
         });

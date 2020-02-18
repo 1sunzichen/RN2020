@@ -140,23 +140,25 @@ class PopularTab extends Component<Props> {
   getFetchUrl(key){
     return URL+key+QUERY_STR;
   }
-  goPage(item){
-    console.log("error");
+  goPage(item,callback){
+ 
     
     NavigationUtil.goPage({
-              projectModel:item
+              projectModel:item,
+              flag:FALG_STORAGE.flag_popular,
+              callback
             },'DetailPage')
   }
-  renderItem(data){
-    const item=data.item;
-
+  renderItem(item){
+   // const item=data.item;
+      
     // return <View>
     //     <Text >{JSON.stringify(item)}</Text>
     // </View>
     return <PopularItem
           projectModel={item}
-          onSelect={()=>{
-           this.goPage(item)
+          onSelect={(callback)=>{
+           this.goPage(item,callback)
           }}
           //传入 favoriteDao 方法 存贮 或 移除 项目 
           onFavorite={(item,isFavorite)=>FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,FALG_STORAGE.flag_popular)}
@@ -181,8 +183,8 @@ class PopularTab extends Component<Props> {
       <View style={styles.sectionContainerTab}>
         <FlatList
           data={store.projectModels}
-          renderItem={data=>this.renderItem(data)}
-          keyExtractor={item=>""+item.item.id}
+          renderItem={({item})=>this.renderItem(item)}
+          keyExtractor={({item})=>(""+item.id)}
           refreshControl={
             <RefreshControl
               title={"loading"}
@@ -190,7 +192,6 @@ class PopularTab extends Component<Props> {
               colors={[THEME_COLOR]}
               refreshing={store.isLoading}
               onRefresh={()=>this.loadData()}
-
             />
           }
           ListFooterComponent={()=>this.getIndic()}

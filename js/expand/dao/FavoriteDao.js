@@ -2,7 +2,7 @@
 import {View, Text, StyleSheet, Button} from 'react-native';
 const FAVOROTE_KEY_PREFIX="favorite_";
 import AsyncStorage from '@react-native-community/async-storage';
-//收藏 数组 类  获取数据  的 类
+//收藏 数组 类  获取数据  的 类 标注 收藏的 
 class FavoriteDao{
   constructor(flag) {
     this.favoriteKey=FAVOROTE_KEY_PREFIX+flag;
@@ -25,7 +25,7 @@ class FavoriteDao{
     AsyncStorage.getItem(this.favoriteKey,(error,result)=>{
       
       if(!error){
-      console.log(result,"niuniu",error,isAdd);
+      //console.log(result,"niuniu",error,isAdd);
         //收藏KEY
         let favoriteKeys=[];
         if(result){
