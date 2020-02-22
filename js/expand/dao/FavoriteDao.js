@@ -25,7 +25,7 @@ class FavoriteDao{
     AsyncStorage.getItem(this.favoriteKey,(error,result)=>{
       
       if(!error){
-      //console.log(result,"niuniu",error,isAdd);
+      ////console.log(result,"niuniu",error,isAdd);
         //收藏KEY
         let favoriteKeys=[];
         if(result){

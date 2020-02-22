@@ -14,9 +14,9 @@ export function handleData(actionType,dispatch,storeName,data,pageSize,favoriteD
 
    let showItems=pageSize>fixItems.length?
       fixItems:fixItems.slice(0,pageSize);
-  //  console.log('====================================');
-  //  console.log(fixItems,"qw",actionType);
-  //  console.log('====================================');
+  //  //console.log('====================================');
+  //  //console.log(fixItems,"qw",actionType);
+  //  //console.log('====================================');
     _projectModels(showItems,favoriteDao,projectModels=>{
 
     dispatch({
@@ -41,7 +41,7 @@ export async function _projectModels(showItems,favoriteDao,callback){
   try{
     keys=await favoriteDao.getFavoriteKeys();
   }catch(e){
-    console.log(e);
+    //console.log(e);
   }
   let projectModels=[];
 

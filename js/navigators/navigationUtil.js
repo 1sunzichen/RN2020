@@ -4,7 +4,7 @@ export default class NavigationUtil {
     // 3:直接读取 或者 间接获得都可以 因为传过来了
     const navigation = NavigationUtil.navigation;
     if (!navigation) {
-      console.log('null');
+      //console.log('null');
       return;
     }
     navigation.navigate(page, {...params});

@@ -7,21 +7,24 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Button,TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Button,TouchableOpacity,ScrollView} from 'react-native';
 import Actions from '../action';
 import {connect} from 'react-redux';
 import NavigationBarDiy from '../common/NavigationBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import {MORE_MENU} from '../common/MORE_MENU.js';
+import GlobalStyles from '../res/GlobalStyles.js';
+import ViewUtil from '../util/viewUtil.js';
 const THEME_COLOR="#678";
 class  MyPage extends Component {
   getRightButton(){
     return <View style={{flexDirection:"row"}}>
       <TouchableOpacity
       onPress={()=>{
-        console.log('====================================');
-        console.log(12121);
-        console.log('====================================');
+        //console.log('====================================');
+        //console.log(12121);
+        //console.log('====================================');
       }}>
         <View style={{padding:5,marginRight:8}}>
             <Feather
@@ -46,6 +49,12 @@ class  MyPage extends Component {
     
     </TouchableOpacity>
   }
+  onHandlerClick(menu){
+
+  }
+  getItem(menu){
+    return ViewUtil.getMenuItem(()=>this.onHandlerClick(menu),menu,THEME_COLOR);
+  }
   render() {
     let statusBar={
       backgroundColor:THEME_COLOR,
@@ -62,7 +71,53 @@ class  MyPage extends Component {
     return (
       <View style={styles.sectionContainer}>
         {barMy}
-        <Text style={styles.sectionText}>MyPage</Text>
+          <ScrollView>
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() =>this.onHandlerClick(
+                MORE_MENU.About
+              )}>
+                <View style={styles.about_left}>
+
+                  <Ionicons
+                    name={MORE_MENU.About.icon}
+                    size={40}
+                    style={{marginRight:10,color:THEME_COLOR}}
+                  />
+                  <Text>GitHub Popular</Text>
+                </View>
+                  <Ionicons
+                    size={16}
+                    name={"ios-arrow-forward"}
+                    style={{marginRight:10,color:THEME_COLOR,
+                    alignSelf:"center"}}
+                  />
+            </TouchableOpacity>
+            <View style={GlobalStyles.line}/>
+            {this.getItem(MORE_MENU.Tutorial)}
+            <Text style={styles.groupTitle}>趋势管理</Text>
+            {/* 自定义语言 */}
+            {this.getItem(MORE_MENU.Custom_Language)}
+            {/* 语言排序 */}
+            <View style={GlobalStyles.line}/>
+            {this.getItem(MORE_MENU.Sort_Language)}
+            {/* 最热管理 */}
+            <Text style={styles.groupTitle}>最热管理</Text>
+            {this.getItem(MORE_MENU.Custom_Key)}
+            {/* 标签排序 */}
+            <View style={GlobalStyles.line}/>
+            {this.getItem(MORE_MENU.Remove_Key)}
+            {/* 设置 */}
+            <Text style={styles.groupTitle}>设置</Text>
+            {/* 自定义主题 */}
+            {this.getItem(MORE_MENU.Custom_Theme)}
+            {/* 关于作者 */}
+            <View style={GlobalStyles.line}/>
+            {this.getItem(MORE_MENU.About_Author)}
+            <View style={GlobalStyles.line}/>
+            {/* 反馈 */}
+            {this.getItem(MORE_MENU.Feedback)}
+          </ScrollView>
       </View>
     );
   }
@@ -76,6 +131,27 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 30,
   },
+  about_left:{
+    alignItems:"center",
+    flexDirection:'row'
+  },
+  item:{
+    backgroundColor:"white",
+    padding:10,
+    height:60,
+    alignItems:"center",
+    fontSize: 30,
+    justifyContent:"space-between",
+    flexDirection:'row'
+  },
+  groupTitle:{
+    marginLeft:10,
+    marginTop:10,
+    marginBottom:5,
+    fontSize:12,
+    color:'gray'
+  },
+
 });
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({

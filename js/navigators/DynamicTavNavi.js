@@ -17,6 +17,8 @@ import MyPage from '../page/MyPage';
 import TrendingPage from '../page/TrendingPage';
 import FavoritePage from '../page/FavoritePage';
 import {connect} from 'react-redux';
+import EventBus from 'react-native-event-bus';
+import EventTypes from '../util/EventTypes.js';
 const BottomTab = {
   PopularPage: {
     screen: PopularPage,
@@ -69,33 +71,41 @@ class DynamicTab extends Component<Props> {
   }
 
   _getBottom() {
+     if (this.Tabs) {
+            return this.Tabs;
+    }
     const {PopularPage, TrendingPage, FavoritePage, MyPage} = BottomTab;
 
 
     const tabs = {PopularPage, TrendingPage, FavoritePage,MyPage};
     //PopularPage.navigationOptions.tabBarLabel = '最新';
-    return createBottomTabNavigator(tabs, {
+    return this.Tabs= createAppContainer(createBottomTabNavigator(tabs, {
       tabBarComponent: props => {
         return <TabBarCom theme={this.props.theme} {...props} />;
       },
-    });
+    }));
   }
 
   render() {
     // 1.先把当前 拥有其他同级路由 的 路由属性 赋给 路由插件
-    if (this.Tab) {
-      let T = this.Tab;
-      return <T />;
-    }
-    this.Tab = createAppContainer(this._getBottom());
-    let B = this.Tab;
-    return <B />;
+   
+    const Tab = this._getBottom()
+    
+    return <Tab 
+        onNavigationStateChange={(prevState,newState,action)=>{
+          //发出事件
+          EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
+            from:prevState.index,
+            to:newState.index
+          })
+        }}
+    />;
   }
 }
 class TabBarCom extends React.Component {
   constructor(props) {
     super(props);
-    //console.log(props, 'propss');
+    ////console.log(props, 'propss');
 
     this.theme = {
       tintColor: props.activeTintColor,

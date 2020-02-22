@@ -17,7 +17,7 @@ export default class TrendingDialog extends Component{
   }
  
   show(){
-    console.log("visable",this.state);
+    //console.log("visable",this.state);
     this.setState({
       visible:true
     })

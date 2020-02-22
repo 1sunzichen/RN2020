@@ -6,12 +6,12 @@ import thunk from 'redux-thunk';
 import {middleware} from '../navigators/AppNavigator';
 const logger = store => next => action => {
   if (typeof action === 'function') {
-    console.log('dispatching a funtion');
+    //console.log('dispatching a funtion');
   } else {
-    console.log('dispatching', action);
+    //console.log('dispatching', action);
   }
   const result = next(action);
-  console.log('nextState', store.getState());
+  //console.log('nextState', store.getState());
 };
 const middlewares = [middleware, thunk, logger];
 

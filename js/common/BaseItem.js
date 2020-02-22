@@ -40,11 +40,10 @@ class BaseItem extends Component{
             this.setFavoriteState(isFavorite);
         });
     }
-
+    //收藏按钮的 点击方法
     onPressFavorite(){
-    
-      
       this.setFavoriteState(!this.state.isFavorite);
+      //调用 方法  进而 发出事件
       this.props.onFavorite(this.props.projectModel.item,!this.state.isFavorite);
     }
 

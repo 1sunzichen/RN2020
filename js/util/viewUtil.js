@@ -1,7 +1,50 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity,StyleSheet,Icons,View,Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 export default class ViewUtil{
+  //  callback   单机Item的回调
+  //  text       显示的文本         
+  //  color      图标着色         
+  //  Icons      react-native-vector-icons 组件
+  //  icon       左侧图标
+  //  expandableIco 右侧图标
+  //  {XML}
+  // 
+  static getSettingItem(callback,text,color,Icons,icon,expandableIco){
+    return (
+      <TouchableOpacity
+        onPress={callback}
+        style={styles.setting_item_container}
+      >
+        <View style={{alignItems:'center',flexDirection:'row'}}>
+          {Icons&&icon?
+            <Icons
+              name={icon}
+              size={16}
+              style={{color:color,marginRight:10}}
+            />: 
+            <View style={{opacity:1,width:16,height:16,marginRight:10}}/>
+          }
+          <Text>{text}</Text>
+        </View>
+          <Ionicons
+                    size={16}
+                    name={expandableIco?expandableIco:"ios-arrow-forward"}
+                    style={{marginRight:10,color:color||"black",
+                    alignSelf:"center"}}
+                  />
+      </TouchableOpacity>
+    )
+  }
+  //获取设置页的 Item 
+  // 单击item的回调
+  // memu @MORE_MENU
+  // color 图标着色
+  // expandableIco 右侧图标
+  static getMenuItem(callback,menu,color,expandableIco){
+    return ViewUtil.getSettingItem(callback,menu.name,color,menu.Icons,menu.icon,
+    expandableIco);
+  }
 
   static getLeftButton(callback){
     return <TouchableOpacity
@@ -30,3 +73,12 @@ export default class ViewUtil{
     </TouchableOpacity>
   }
 }
+const styles=StyleSheet.create({
+  setting_item_container:{
+    backgroundColor:"white",
+    padding:10,height:60,
+    alignItems:"center",
+    justifyContent:"space-between",
+    flexDirection:'row'
+  }
+})

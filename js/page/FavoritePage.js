@@ -22,19 +22,21 @@ import TrendingItem from '../common/TrendingItem.js';
 import NavigationBarDiy from '../common/NavigationBar';
 import FavoriteDao from '../expand/dao/FavoriteDao.js';
 import {FALG_STORAGE} from '../expand/dao/dataStore.js';
+import EventBus from 'react-native-event-bus';
+import EventTypes from '../util/EventTypes.js';
 import FavoriteUtil from "../util/FavoriteUtil.js"
 const URL=`https://api.github.com/search/repositories?q=`;
 const QUERY_STR="&sort=stars";
 const THEME_COLOR='#678';
 const favoriteDao=new FavoriteDao(FALG_STORAGE.flag_popular);
-console.log(favoriteDao,"favoriteDaofavoriteDaofavoriteDao");
+//console.log(favoriteDao,"favoriteDaofavoriteDaofavoriteDao");
 
 const pageSize=10;
 type Props = {};
 class FavoritePage extends Component<Props> {
   constructor(props) {
     super(props);
-    this.TabNames = ['JAVA', 'Android', 'iOS', 'React', 'ReactNative'];
+    this.TabNames = ['JAVA', 'Android', 'iOS', 'Flutter', 'ReactNative'];
 
   }
   // _genTabs() {
@@ -115,7 +117,17 @@ class FavoriteTab extends Component<Props> {
       this.favoriteDao=new FavoriteDao(flag);
   }
   componentDidMount() {
-    this.loadData();
+    this.loadData(true);
+    EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.listener = data => {
+      //console.log(data,"data");
+      
+      if(data.to===2){
+        this.loadData(false);
+      }
+    })
+  }
+  componentWillUnmount() {
+    EventBus.getInstance().removeListener(this.listener);
   }
   _store(){
     const {favorite}=this.props;
@@ -149,9 +161,18 @@ class FavoriteTab extends Component<Props> {
               callback
             },'DetailPage')
   }
+  onFavorite(item,isFavorite){
+    FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,this.storeName)
+    if(this.storeName===FALG_STORAGE.flag_trending){
+      EventBus.getInstance().fireEvent(EventTypes.favorite_changed_trending)
+    }else{
+      // 当收藏页面；单个元素点击收藏按钮时；发出事件
+      EventBus.getInstance().fireEvent(EventTypes.favorite_changed_popular)
+    }
+  }
   renderItem(item){
    // const item=data.item;
-      
+      //FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,this.storeName)
     // return <View>
     //     <Text >{JSON.stringify(item)}</Text>
     // </View>
@@ -162,7 +183,7 @@ class FavoriteTab extends Component<Props> {
            this.goPage(item,callback)
           }}
           //传入 favoriteDao 方法 存贮 或 移除 项目 
-          onFavorite={(item,isFavorite)=>FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,this.storeName)}
+          onFavorite={(item,isFavorite)=>this.onFavorite(item,isFavorite)}
 
     />
   }
@@ -178,7 +199,7 @@ class FavoriteTab extends Component<Props> {
     const {favorite} = this.props;
 
     let store=this._store();
-    console.log(store,"zuireStore");
+    //console.log(store,"zuireStore");
     
     return (
       <View style={styles.sectionContainerTab}>

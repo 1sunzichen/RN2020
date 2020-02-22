@@ -10,7 +10,7 @@ render(){
      const {item}=projectModel
      
      if(!item) return null;
-     console.log(item,"🐖🐖🐖");
+     //console.log(item,"🐖🐖🐖");
     let description=`<p>${item.description}</p>`
     let abc=item.contributors.filter((i)=>{
       i.indexOf('http')!==-1

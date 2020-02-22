@@ -11,7 +11,7 @@ const defaultState={};
 //}
 //}
 export default function onAction(state=defaultState,action) {
-  console.log(action,"actionReducer");
+  //console.log(action,"actionReducer");
   
   switch (action.type) {
 

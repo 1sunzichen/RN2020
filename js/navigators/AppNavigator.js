@@ -3,10 +3,11 @@ import {createStackNavigator} from 'react-navigation-stack';
 import HomePage from '../page/homepage';
 import WelcomePage from '../page/welcome';
 import DetailPage from '../page/detailPage';
+import WebViewPage from '../page/WebViewPage.js'
 import {Button, Platform, ScrollView, SafeAreaView} from 'react-native';
 import {createSwitchNavigator} from 'react-navigation';
 import {connect} from 'react-redux';
-import FetchPage from '../page/FatchDemo';
+// import FetchPage from '../page/FatchDemo';
 import AsyncPageDemo from '../page/AsyncStorageDemo';
 import DataStorePage from '../page/DataStore';
 import {
@@ -36,24 +37,30 @@ const MainNavigator = createStackNavigator({
       header: null,
     },
   },
-  FetchPage: {
-    screen: FetchPage,
+  WebViewPage: {
+    screen: WebViewPage,
     navigationOptions: {
       //header: null,
-    },
+    }
   },
-  AsyncPageDemo: {
-    screen: AsyncPageDemo,
-    navigationOptions: {
-      //header: null,
-    },
-  },
-  DataStorePage: {
-    screen: DataStorePage,
-    navigationOptions: {
-      //header: null,
-    },
-  },
+  // FetchPage: {
+  //   screen: FetchPage,
+  //   navigationOptions: {
+  //     //header: null,
+  //   },
+  // },
+  // AsyncPageDemo: {
+  //   screen: AsyncPageDemo,
+  //   navigationOptions: {
+  //     //header: null,
+  //   },
+  // },
+  // DataStorePage: {
+  //   screen: DataStorePage,
+  //   navigationOptions: {
+  //     //header: null,
+  //   },
+  // },
 });
 export const RootNavigator = createSwitchNavigator(
   {

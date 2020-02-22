@@ -26,6 +26,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FavoriteDao from '../expand/dao/FavoriteDao.js';
 import FavoriteUtil from "../util/FavoriteUtil";
 import {FALG_STORAGE} from '../expand/dao/dataStore.js';
+import EventBus from 'react-native-event-bus';
+import EventTypes from '../util/EventTypes.js';
 //TimeSpans
 const URL=`https://github.com/trending/`;
 const QUERY_STR="?since=daily";
@@ -63,7 +65,7 @@ class TrendingPage extends Component<Props> {
 
    if(this.refs.TrendingDialogRef.show){
      let a=this.refs.TrendingDialogRef.__proto__;
-     console.log(this.refs.TrendingDialogRef,a,"0000");
+     //console.log(this.refs.TrendingDialogRef,a,"0000");
      this.refs.TrendingDialogRef.show();
    }
     
@@ -74,9 +76,9 @@ class TrendingPage extends Component<Props> {
   }
 
   renderTitleView(){
-    console.log('====================================');
-    console.log(this.myRef,"1212");
-    console.log('====================================');
+    //console.log('====================================');
+    //console.log(this.myRef,"1212");
+    //console.log('====================================');
     return <View style={styles.style_renderTitleView}>
       <TouchableOpacity
         underlayColor="red"
@@ -176,7 +178,7 @@ class TrendingTab extends Component<Props> {
       let {tabLabel,timeSpan}=this.props;
       this.timeSpan=timeSpan;
       this.storeName=tabLabel;
-      
+      this.isFavoriteChanged=false;
   }
   componentDidMount() {
     this.loadData();
@@ -184,11 +186,21 @@ class TrendingTab extends Component<Props> {
       this.timeSpan=timeSpan;
       this.loadData();
     })
+    EventBus.getInstance().addListener(EventTypes.favorite_changed_trending, this.favoriteListener = () => {
+     this.isFavoriteChanged=true;
+    })
+    EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.bottomTabSelectListener = (data) => {
+      if(data.to===1&&this.isFavoriteChanged){
+        this.loadData(null,true)
+      }
+    })
   }
   componentWillUnmount() {
     if(this.Listener){
       this.Listener.remove();
     }
+    EventBus.getInstance().removeListener(this.favoriteListener);
+    EventBus.getInstance().removeListener(this.bottomTabSelectListener);
   }
   _store(){
     const {trending}=this.props;
@@ -205,7 +217,7 @@ class TrendingTab extends Component<Props> {
     }
     return store;
   }
-  loadData(loadMore){
+  loadData(loadMore,refresh){
 
     const {onLoadTrendingData,onLoadMoreTrendingData}=this.props;
     const store=this._store();
@@ -217,8 +229,11 @@ class TrendingTab extends Component<Props> {
         this.refs.toast.show("没有更多了")
       } );
 
-    }else{
-      console.log(1212);
+    }else if(refresh){
+      onFlushTrendingFavorite(this.storeName,++(store.pageIndex),pageSize,store.items,favoriteDao);
+    }
+    else{
+ 
       
       onLoadTrendingData(this.storeName,url,pageSize,favoriteDao);
 
@@ -258,13 +273,14 @@ class TrendingTab extends Component<Props> {
   render() {
     const {trending} = this.props;
     let store=this._store();
-
+    //console.log(store.projectModels,"itemsss");
+    
     return (
       <View style={styles.sectionContainerTab}>
         <FlatList
           data={store.projectModels}
           renderItem={data=>this.renderItem(data)}
-          keyExtractor={item=>""+item.fullName}
+          keyExtractor={item=>""+item.item.fullName}
           refreshControl={
             <RefreshControl
               title={"loading"}
@@ -324,6 +340,7 @@ const mapStateToProps=state=>({
 const mapDispatchToProps=dispatch=>({
   onLoadTrendingData:(storeName,url,pageSize,favoriteDao)=>dispatch(Actions.onLoadTrendingData(storeName,url,pageSize,favoriteDao)),
   onLoadMoreTrendingData:(storeName,pageIndex,pageSize,items,favoriteDao,callback)=>dispatch(Actions.onLoadMoreTrendingData(storeName,pageIndex,pageSize,items,favoriteDao,callback)),
+  onFlushTrendingFavorite:(storeName,pageIndex,pageSize,items,favoriteDao)=>dispatch(Actions.onFlushTrendingFavorite(storeName,pageIndex,pageSize,items,favoriteDao))
 })
 const TrendingTabPage=connect(mapStateToProps,mapDispatchToProps)(TrendingTab);
 

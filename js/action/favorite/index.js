@@ -9,7 +9,10 @@ export function onLoadFavoriteData(flag,isShowLoading) {
  
   
   return dispatch=>{
+    if(isShowLoading){
+
     dispatch({type:Types.FAVORITE_LOAD_DATA,storeName:flag})
+    }
     let dataStore=new DataStore();
     //  这个是 离线缓存 要传输的类型   trending 还是 popular 
     // 之后 是 用来 请求 不同的api 
@@ -23,10 +26,10 @@ export function onLoadFavoriteData(flag,isShowLoading) {
         dispatch({type:Types.FAVORITE_LOAD_SUC,projectModels:resultData,storeName:flag})
       })
       .catch(e=>{
-        console.log('====================================');
-        console.log(e);
+        //console.log('====================================');
+        //console.log(e);
         dispatch({type:Types.FAVORITE_LOAD_FAIL,error:e,storeName:flag})
-        console.log('====================================');
+        //console.log('====================================');
       })
   }
 }

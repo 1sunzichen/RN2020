@@ -1,6 +1,6 @@
 import {onThemeChange} from './theme';
-import {onLoadPopularData,onLoadMorePopularData} from './popular';
-import {onLoadTrendingData,onLoadMoreTrendingData} from './trending';
+import {onLoadPopularData,onLoadMorePopularData,onFlushPopularFavorite} from './popular';
+import {onLoadTrendingData,onLoadMoreTrendingData,onFlushTrendingFavorite} from './trending';
 import {onLoadFavoriteData} from './favorite';
 export default {
   onThemeChange,
@@ -10,4 +10,8 @@ export default {
   onLoadMoreTrendingData,
   //获取收藏
   onLoadFavoriteData,
+  // 最热 刷新 收藏状态
+  onFlushPopularFavorite,
+  // 最热 刷新 收藏状态
+  onFlushTrendingFavorite,
 };

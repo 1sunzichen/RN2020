@@ -1,7 +1,7 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
- *
+ * webviewPage
  * @format
  * @flow
  */
@@ -16,26 +16,20 @@ import ViewUtil from '../util/viewUtil.js';
 import FavoriteDao from '../expand/dao/FavoriteDao.js';
 import BackPressComponent from '../common/BackPressComponent.js';
 
-const TRENDING_URL='https://github.com/';
+// const TRENDING_URL='https://github.com/';
 const THEME_COLOR='#678';
 type Props = {};
-export default class DetailPage extends Component<Props> {
+export default class WebViewPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.params=this.props.navigation.state.params;
     // flag  趋势模块 或 最热模块
-    const {projectModel,flag} =this.params;
+    const {title,url} =this.params;
     // if
-    //console.log(this.params,"params111");
-    
-    this.favoriteDao=new FavoriteDao(flag);
-    this.url=projectModel.item.html_url||TRENDING_URL+projectModel.item.fullName;
-    const title=projectModel.item.full_name||projectModel.item.fullName;
     this.state = {
       title:title,
-      url:this.url,
+      url:url,
       canGoBack:false,
-      isFavorite:projectModel.isFavorite
     }
     this.backPress=new BackPressComponent({backPress:this.onBackPress})
   }
@@ -56,9 +50,7 @@ export default class DetailPage extends Component<Props> {
   }
 
   onBack(){
-    //console.log('====================================');
-    //console.log(this,"webview");
-    //console.log('====================================');
+
     if(this.state.canGoBack){
       ////console.log(this.refs.webView,"1111");
       this.webView.goBack();
@@ -70,22 +62,22 @@ export default class DetailPage extends Component<Props> {
     }
 
   }
-  onFavoriteButtonClick(){
-    const {projectModel,callback}=this.params;
-    //console.log(projectModel.isFavorite,"909090");
-    let isFavorite=!this.state.isFavorite;
-    callback(isFavorite);
-    this.setState({
-      isFavorite
-    },(isFavorite)=>{
-    let key=projectModel.item.fullName?projectModel.item.fullName:projectModel.item.id.toString();
-      if(isFavorite){
-        this.favoriteDao.saveFavoriteItem(key, JSON.stringify(projectModel.item));
-      }else{
-        this.favoriteDao.removeFavoriteItem(key);
-      }
-    })
-  }
+  // onFavoriteButtonClick(){
+  //   const {projectModel,callback}=this.params;
+  //   //console.log(projectModel.isFavorite,"909090");
+  //   let isFavorite=!this.state.isFavorite;
+  //   callback(isFavorite);
+  //   this.setState({
+  //     isFavorite
+  //   },(isFavorite)=>{
+  //   let key=projectModel.item.fullName?projectModel.item.fullName:projectModel.item.id.toString();
+  //     if(isFavorite){
+  //       this.favoriteDao.saveFavoriteItem(key, JSON.stringify(projectModel.item));
+  //     }else{
+  //       this.favoriteDao.removeFavoriteItem(key);
+  //     }
+  //   })
+  // }
   renderRightButton(){
       return <View style={{flexDirection:"row"}}>
       <TouchableOpacity
@@ -120,11 +112,11 @@ export default class DetailPage extends Component<Props> {
     const titleLayoutStyle = this.state.title.length > 20 ? {paddingRight: 30} : null;
     //const titleLayoutStyle = null;
    let DetailBar=<NavigationBar
-          titleLayoutStyle={titleLayoutStyle}
+         
           title={this.state.title}
           leftButton={ViewUtil.getLeftButton(()=>this.onBack())}
           style={{backgroundColor:THEME_COLOR}}
-          rightButton={this.renderRightButton()}
+            
     />
     const {navigation} = this.props;
     return (

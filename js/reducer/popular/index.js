@@ -1,7 +1,7 @@
 import Types from '../../action/types';
 const defaultState={};
 export default function onAction(state=defaultState,action) {
-  console.log(action,"actionReducer");
+  //console.log(action,"actionReducer");
   
   switch (action.type) {
     //下拉刷新
@@ -58,6 +58,16 @@ export default function onAction(state=defaultState,action) {
           //isLoading:false
         }
       }
+
+  case Types.FLUSH_POPULAR_FAVORITE:
+    return{
+      ...state,
+        [action.storeName]:{
+          ...state[action.storeName],
+          projectModels:action.projectModels,
+
+        }
+    }
   default:
       return{
         ...state

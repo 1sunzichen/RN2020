@@ -12,11 +12,11 @@ export function onLoadTrendingData(storeName,url,pageSize,favoriteDao) {
     dataStore.fetchData(url,FALG_STORAGE.flag_trending)
     .then(data=>{
       // 第一次加载
-        // console.log('====================================');
-        // console.log(data,"abcdefg",Types.LOAD_TRENDING_SUC);
-        // console.log('====================================');
+        // //console.log('====================================');
+        // //console.log(data,"abcdefg",Types.LOAD_TRENDING_SUC);
+        // //console.log('====================================');
           if(data.data&&data.data.length<pageSize){
-            console.log(data.data.length,"1111");
+            //console.log(data.data.length,"1111");
             
           handleData(Types.LOAD_TRENDING_SUC,dispatch,storeName,data,data.data.length,favoriteDao)
           }else{
@@ -72,3 +72,21 @@ dataArray=[],favoriteDao,callBack) {
 }
 
 //
+// 导出action
+export function onFlushTrendingFavorite(storeName,pageIndex,pageSize,dataArray=[],favoriteDao){
+  return dispatch=>{
+       let max=pageSize*pageIndex>dataArray.length?
+       dataArray.length:pageSize*pageIndex;
+
+           _projectModels(dataArray.slice(0,max),favoriteDao,data=>{
+            dispatch({
+              type:Types.FLUSH_TRENDING_FAVORITE,
+              storeName,
+              pageIndex,
+              // 分页数据
+              projectModels:data
+            })
+        })
+
+  }
+}

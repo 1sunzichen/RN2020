@@ -15,18 +15,18 @@ export function onLoadPopularData(storeName,url,pageSize,favoriteDao) {
     dataStore.fetchData(url,FALG_STORAGE.flag_popular)
     .then(data=>{
       // 第一次加载
-      // console.log('====================================');
-      // console.log(dispatch,storeName,data,pageSize,"🐘");
-      // console.log('====================================');
+      // //console.log('====================================');
+      // //console.log(dispatch,storeName,data,pageSize,"🐘");
+      // //console.log('====================================');
        // 这个是 请求api后  action 对类型 细分  将数据 扁平化 
        // 就没有 大类型 trending 和 popular 之分 不过 是包括 所有的
        // 类型的 
         handleData(Types.LOAD_POPULAR_SUC,dispatch,storeName,data,pageSize,favoriteDao)
     })
     .catch((error)=>{
-      // console.log('====================================');
-      // console.log(error,"error");
-      // console.log('====================================');
+      // //console.log('====================================');
+      // //console.log(error,"error");
+      // //console.log('====================================');
       dispatch({
         type:Types.LOAD_POPULAR_FAIL,
         storeName,
@@ -73,4 +73,22 @@ dataArray=[],favoriteDao,callBack) {
   }
 }
 
-//
+// 导出action
+export function onFlushPopularFavorite(storeName,pageIndex,pageSize,dataArray=[],favoriteDao){
+  return dispatch=>{
+       let max=pageSize*pageIndex>dataArray.length?
+       dataArray.length:pageSize*pageIndex;
+            //console.log(Types.FLUSH_POPULAR_FAVORITE,"121212");
+            
+           _projectModels(dataArray.slice(0,max),favoriteDao,data=>{
+            dispatch({
+              type:Types.FLUSH_POPULAR_FAVORITE,
+              storeName,
+              pageIndex,
+              // 分页数据
+              projectModels:data
+            })
+        })
+
+  }
+}
