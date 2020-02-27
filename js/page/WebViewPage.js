@@ -29,6 +29,7 @@ export default class WebViewPage extends Component<Props> {
     this.state = {
       title:title,
       url:url,
+      //内嵌网页 是否有跳转
       canGoBack:false,
     }
     this.backPress=new BackPressComponent({backPress:this.onBackPress})
@@ -78,26 +79,26 @@ export default class WebViewPage extends Component<Props> {
   //     }
   //   })
   // }
-  renderRightButton(){
-      return <View style={{flexDirection:"row"}}>
-      <TouchableOpacity
-      onPress={()=>{
-       this.onFavoriteButtonClick()
-      }}>
-        <View style={{padding:5,marginRight:8}}>
-            <FontAwesome
-              name={this.state.isFavorite?'star':'star-o'}
-              size={26}
-              style={{color:"red",
-              lineHeight:26}}
-            />
-        </View>
-      </TouchableOpacity>
-      <View style={{paddingTop:6}}>
-      {ViewUtil.getShareButton(()=>{})}
-      </View>
-    </View>
-  }
+  // renderRightButton(){
+  //     return <View style={{flexDirection:"row"}}>
+  //     <TouchableOpacity
+  //     onPress={()=>{
+  //      this.onFavoriteButtonClick()
+  //     }}>
+  //       <View style={{padding:5,marginRight:8}}>
+  //           <FontAwesome
+  //             name={this.state.isFavorite?'star':'star-o'}
+  //             size={26}
+  //             style={{color:"red",
+  //             lineHeight:26}}
+  //           />
+  //       </View>
+  //     </TouchableOpacity>
+  //     <View style={{paddingTop:6}}>
+  //     {ViewUtil.getShareButton(()=>{})}
+  //     </View>
+  //   </View>
+  // }
   onNavigationStateChange(navState){
     //console.log(navState,"navState");
     

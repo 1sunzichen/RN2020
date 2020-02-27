@@ -3,5 +3,8 @@ export default {
     height:0.5,
     opacity:0.5,
     backgroundColor:'darkgray'
-  }
+  },
+  backgroundColor:"#678",
+  nav_bar_height_ios:50,
+  nav_bar_height_and:44
 }

@@ -40,7 +40,7 @@ const MainNavigator = createStackNavigator({
   WebViewPage: {
     screen: WebViewPage,
     navigationOptions: {
-      //header: null,
+      header: null,
     }
   },
   // FetchPage: {

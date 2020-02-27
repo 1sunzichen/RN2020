@@ -16,6 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {MORE_MENU} from '../common/MORE_MENU.js';
 import GlobalStyles from '../res/GlobalStyles.js';
 import ViewUtil from '../util/viewUtil.js';
+import NavigationUtil from '../navigators/navigationUtil.js'
 const THEME_COLOR="#678";
 class  MyPage extends Component {
   getRightButton(){
@@ -50,7 +51,18 @@ class  MyPage extends Component {
     </TouchableOpacity>
   }
   onHandlerClick(menu){
-
+    let RouteName,params={};
+    switch(menu){
+      case MORE_MENU.Tutorial:
+        //跳转到 教程页
+        RouteName='WebViewPage';
+        params.title="教程";
+        params.url="https://www.9xkd.com/1914210302.html";
+      break;
+    }
+    if(RouteName){
+      NavigationUtil.goPage(params,RouteName);
+    }
   }
   getItem(menu){
     return ViewUtil.getMenuItem(()=>this.onHandlerClick(menu),menu,THEME_COLOR);

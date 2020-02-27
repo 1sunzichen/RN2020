@@ -1,0 +1,82 @@
+{
+  "aboutMe": {
+    "Tutorial": {
+      "name": "教程",
+      "icon": "ios-bookmarks",
+      "items": [
+        {
+          "title": "跨平台桌面开发教程",
+          "url": "https://www.9xkd.com/1914210302.html"
+        },
+        {
+          "title": "JavaScript单元测试",
+          "url": "https://www.9xkd.com/2345964104.html"
+        }
+      ]
+    },
+    "Blog": {
+      "name": "技术博客",
+      "icon": "ios-laptop",
+      "items": [
+        {
+          "title": "GitHub",
+          "url": "https://github.com/1sunzichen"
+        },
+        {
+          "title": "个人博客(正在搭建)",
+          "url": "https://1sunzichen.github.io/"
+        },
+        {
+          "title": "简书",
+          "url": "https://www.jianshu.com/u/c03d7574ecff"
+        }
+      ]
+    },
+    "Contact": {
+      "name": "联系方式",
+      "icon": "ios-contacts",
+      "items": {
+        "QQ": {
+          "title": "QQ",
+          "account": "544100307"
+        },
+        "Email": {
+          "title": "Email",
+          "account": "15210187668@163.com"
+        }
+      }
+    },
+    "QQ": {
+      "name": "技术交流群",
+      "icon": "ios-chatbubbles",
+      "items": [
+        {
+          "title": "移动开发者技术分享群",
+          "account": "335939197"
+        },
+        {
+          "title": "React Native学习交流群",
+          "account": "165774887"
+        }
+      ]
+    }
+  },
+  "info": {
+    "html_url": "https://github.com/1sunzichen/",
+    "url": "https://api.github.com/repos/crazycodeboy/",
+    "currentRepoUrl": "https://api.github.com/repos/crazycodeboy/GitHubPopular"
+  },
+  "author": {
+    "name": "Ekko",
+    "description": "致力于全栈开发",
+    "avatar": "https://avatar.csdnimg.cn/7/4/D/1_java_pass37.jpg",
+    "backgroundImg": "https://www.devio.org/io/GitHubPopular/img/for_githubpopular_about_me.jpg",
+    "url": "https://www.devio.org/"
+  },
+  "app": {
+    "name": "GitHub Popular",
+    "description": "这是一个用来查看GitHub最受欢迎与最热项目的App,它基于React Native支持Android和iOS双平台。",
+    "avatar": "https://www.devio.org/io/GitHubPopular/img/ic_app.png",
+    "backgroundImg": "https://www.devio.org/io/GitHubPopular/img/for_githubpopular_about_me.jpg"
+  }
+}
