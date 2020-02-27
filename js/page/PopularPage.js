@@ -96,7 +96,16 @@ class PopularPage extends Component<Props> {
     </View>)
   }
 }
+const mapStateToPropsPage=state=>({
+  keys:state.languages.keys,
+})
+// action 请求的方法
 
+const mapDispatchToPropsPage=dispatch=>({
+  onLoadLanguage:(flag)=>dispatch(Actions.onLoadLanguage(flag)),
+
+})
+export default connect(mapStateToPropsPage,mapDispatchToPropsPage)(PopularPage);
 class PopularTab extends Component<Props> {
   constructor(props){
       super(props);
@@ -267,4 +276,4 @@ const mapDispatchToProps=dispatch=>({
 })
 const PopularTabPage=connect(mapStateToProps,mapDispatchToProps)(PopularTab);
 
-export default PopularPage;
+// export default PopularPage;

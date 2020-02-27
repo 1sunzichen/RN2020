@@ -3,6 +3,7 @@ import theme from './theme';
 import popular from './popular';
 import trending from './trending';
 import favorite from './favorite';
+import lauguage from './lauguage';
 import {rootCom, RootNavigator} from '../navigators/AppNavigator';
 // 1 制定默认的 this.state
 
@@ -21,7 +22,8 @@ const index = combineReducers({
   theme: theme,
   popular:popular,
  trending:trending,
- favorite:favorite
+ favorite:favorite,
+ lauguage:lauguage
 });
 
 export default index;

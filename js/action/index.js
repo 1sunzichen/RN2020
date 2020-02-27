@@ -2,6 +2,7 @@ import {onThemeChange} from './theme';
 import {onLoadPopularData,onLoadMorePopularData,onFlushPopularFavorite} from './popular';
 import {onLoadTrendingData,onLoadMoreTrendingData,onFlushTrendingFavorite} from './trending';
 import {onLoadFavoriteData} from './favorite';
+import {onLoadLanguage} from './lauguage';
 export default {
   onThemeChange,
   onLoadPopularData,
@@ -14,4 +15,6 @@ export default {
   onFlushPopularFavorite,
   // 最热 刷新 收藏状态
   onFlushTrendingFavorite,
+  //导出语言目录
+  onLoadLanguage
 };
