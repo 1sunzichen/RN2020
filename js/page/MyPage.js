@@ -51,6 +51,8 @@ class  MyPage extends Component {
     </TouchableOpacity>
   }
   onHandlerClick(menu){
+    console.log(menu,"99999");
+    
     let RouteName,params={};
     switch(menu){
       case MORE_MENU.Tutorial:
@@ -59,12 +61,22 @@ class  MyPage extends Component {
         params.title="教程";
         params.url="https://www.9xkd.com/1914210302.html";
       break;
+      case MORE_MENU.About:
+        //跳转到 关于页
+        RouteName='AboutPage';
+      break;
+      case MORE_MENU.About_Author:
+        //跳转到 关于页
+        RouteName='AboutMePage';
+      break;
     }
     if(RouteName){
       NavigationUtil.goPage(params,RouteName);
     }
   }
   getItem(menu){
+    console.log(menu,"123122");
+    
     return ViewUtil.getMenuItem(()=>this.onHandlerClick(menu),menu,THEME_COLOR);
   }
   render() {

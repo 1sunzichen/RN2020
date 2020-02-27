@@ -3,7 +3,9 @@ import {createStackNavigator} from 'react-navigation-stack';
 import HomePage from '../page/homepage';
 import WelcomePage from '../page/welcome';
 import DetailPage from '../page/detailPage';
-import WebViewPage from '../page/WebViewPage.js'
+import WebViewPage from '../page/WebViewPage.js';
+import AboutPage from '../page/about/AboutPage.js';
+import AboutMePage from '../page/about/AboutMePage.js';
 import {Button, Platform, ScrollView, SafeAreaView} from 'react-native';
 import {createSwitchNavigator} from 'react-navigation';
 import {connect} from 'react-redux';
@@ -43,6 +45,19 @@ const MainNavigator = createStackNavigator({
       header: null,
     }
   },
+  AboutPage: {
+    screen: AboutPage,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  AboutMePage: {
+    screen: AboutMePage,
+    navigationOptions: {
+      header: null,
+    }
+  },
+
   // FetchPage: {
   //   screen: FetchPage,
   //   navigationOptions: {

@@ -1,9 +1,13 @@
 // 组装者模式 公共部分
-import {View,Image,Text,Dimensions,StyleSheet} from 'react-native';
-import BackPressComponent from '../common/BackPressComponent.js';
+import React from 'react';
+import {View,Image,Text,Dimensions,StyleSheet,Platform,DeviceInfo} from 'react-native';
+import BackPressComponent from '../../common/BackPressComponent.js';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import GlobalStyles from '../../res/GlobalStyles.js';
-const THEME_COLOR='#678';
+import ViewUtil from '../../util/viewUtil.js';
+import NavigationUtil from '../../navigators/navigationUtil';
+const THEME_COLOR='white';
+export const FLAG_ABOUT={flag_about:"about",flag_about_me:"about_me"}
 export default class AboutCommon{
   constructor(props,updateState) {
     this.updateState=updateState;
@@ -11,7 +15,7 @@ export default class AboutCommon{
     this.backPress=new BackPressComponent({backPress:this.onBackPress})
   }
   componentDidMount() {
-     this.backPress.componentDidMount();
+     //this.backPress.componentDidMount();
      fetch("./github_config.json")
      .then(response=>{
        if(response.ok){
@@ -35,20 +39,25 @@ export default class AboutCommon{
 
   }
   componentWillUnmount() {
-     this.backPress.componentWillUnmount();
+     //this.backPress.componentWillUnmount();
   }
   onBackPress() {
-        NavigationUtil.resetBack(this.props.navigation);
+        NavigationUtil.resetBack(this.props);
         return true;
   }
   getParallaxRenderConfig(params){
     let config={};
-
+  //{
+  //   "name": "GitHub Popular",
+  //   "description": "这是一个用来查看GitHub最受欢迎与最热项目的App,它基于React Native支持Android和iOS双平台。",
+  //   "avatar": "https://www.devio.org/io/GitHubPopular/img/ic_app.png",
+  //   "backgroundImg": "https://www.devio.org/io/GitHubPopular/img/for_githubpopular_about_me.jpg"
+  // }
     //取出头像 不是对象（string） 要封装一下 
     let avatar=typeof(params.avatar)==="string"
     ?{uri:params.avatar}:params.avatar
     // 背 景设计
-    config.renderBackground=()=>{
+    config.renderBackground=()=>(
        <View key="background">
                 <Image source={{uri: params.backgroundImg,
                                 width: window.width,
@@ -59,11 +68,11 @@ export default class AboutCommon{
                               backgroundColor: 'rgba(0,0,0,.4)',
                               height: PARALLAX_HEADER_HEIGHT}}/>
               </View>
-    }
+    )
 
 
     // 前 景设计
-    config.renderForeground=() => {
+    config.renderForeground=() => (
               <View key="parallax-header" style={ styles.parallaxHeader }>
                 <Image style={ styles.avatar } source={avatar}/>
                 <Text style={ styles.sectionSpeakerText }>
@@ -73,7 +82,7 @@ export default class AboutCommon{
                     {params.description}
                 </Text>
               </View>
-      }
+    )
     
     //悬停 区域
      config.renderStickyHeader=() => (
@@ -85,7 +94,7 @@ export default class AboutCommon{
     //固定 区域
      config.renderFixedHeader=() => (
               <View key="fixed-header" style={styles.fixedSection}>
-                {ViewUtil.getLeftButton(()=>NavigationUtil.resetBack(this.props.navigation))}
+                {ViewUtil.getLeftButton(()=>NavigationUtil.resetBack(this.props))}
                 {ViewUtil.getShareButton(()=>this.onShare())}
               </View>
             )
@@ -93,7 +102,7 @@ export default class AboutCommon{
     return config;
   }
 
-  render(contentView,params){
+  renderOOO(contentView,params){
     const renderConfig=this.getParallaxRenderConfig(params);
     return(
       <ParallaxScrollView
@@ -112,6 +121,7 @@ export default class AboutCommon{
 const window = Dimensions.get('window');
 const AVATAR_SIZE=90;
 const PARALLAX_HEADER_HEIGHT=270;
+const TOP = (Platform.OS === 'ios') ? 10 + (DeviceInfo.isIPhoneX_deprecated ? 24 : 0) : 0;
 const STICKY_HEIGHT=(Platform.OS==="ios")?GlobalStyles.nav_bar_height_ios+20:
 GlobalStyles.nav_bar_height_and;
 
@@ -129,7 +139,7 @@ const styles = StyleSheet.create({
     height: PARALLAX_HEADER_HEIGHT
   },
   stickySection: {
-    height: STICKY_HEADER_HEIGHT,
+    height: STICKY_HEIGHT,
     width: 300,
     justifyContent: 'flex-end'
   },
@@ -140,8 +150,15 @@ const styles = StyleSheet.create({
   },
   fixedSection: {
     position: 'absolute',
-    bottom: 10,
-    right: 10
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    paddingRight:8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop:TOP
   },
   fixedSectionText: {
     color: '#999',
@@ -164,19 +181,10 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     color: 'white',
-    fontSize: 18,
-    paddingVertical: 5
+    fontSize: 16,
+    marginRight:10,
+    marginLeft:10
   },
-  row: {
-    overflow: 'hidden',
-    paddingHorizontal: 10,
-    height: ROW_HEIGHT,
-    backgroundColor: 'white',
-    borderColor: '#ccc',
-    borderBottomWidth: 1,
-    justifyContent: 'center'
-  },
-  rowText: {
-    fontSize: 20
-  }
+
+
 });

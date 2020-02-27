@@ -30,7 +30,7 @@ export default class ViewUtil{
           <Ionicons
                     size={16}
                     name={expandableIco?expandableIco:"ios-arrow-forward"}
-                    style={{marginRight:10,color:color||"black",
+                    style={{marginRight:10,color:color||"white",
                     alignSelf:"center"}}
                   />
       </TouchableOpacity>
@@ -50,11 +50,12 @@ export default class ViewUtil{
     return <TouchableOpacity
         style={{padding:8,paddingLeft:12}}
         onPress={callback}
+        underlayColor={"transparent"}
     >
       <Ionicons
           name={'ios-arrow-back'}
           size={26}
-          
+          style={{opacity:0.9,color:'white'}}
       />
     
     </TouchableOpacity>

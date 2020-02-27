@@ -32,17 +32,17 @@ export default class WebViewPage extends Component<Props> {
       //内嵌网页 是否有跳转
       canGoBack:false,
     }
-    this.backPress=new BackPressComponent({backPress:this.onBackPress})
+   // this.backPress=new BackPressComponent({backPress:this.onBackPress})
   }
   componentDidMount() {
-    this.backPress.componentDidMount();
+    //this.backPress.componentDidMount();
     // this.timer = setTimeout(() => {
     //   const {navigation} = this.props;
     //   navigation.navigate('Main');
     // }, 2000);
   }
   componentWillUnmount() {
-    this.backPress.componentWillUnmount();
+    //this.backPress.componentWillUnmount();
     // this.timer && clearTimeout(this.timer);
   }
   onBackPress(){

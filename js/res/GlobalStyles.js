@@ -4,7 +4,7 @@ export default {
     opacity:0.5,
     backgroundColor:'darkgray'
   },
-  backgroundColor:"#678",
+  backgroundColor:"white",
   nav_bar_height_ios:50,
   nav_bar_height_and:44
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { BackHandler } from 'react-native';
-
+/**
+ * Android物理回退键处理
+ */
 export default  class BackPressComponent{
   constructor(props){
       this._hardwareBackPress=this.onHardwareBackPress.bind(this);
