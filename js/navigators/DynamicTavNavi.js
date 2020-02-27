@@ -89,7 +89,7 @@ class DynamicTab extends Component<Props> {
   render() {
     // 1.先把当前 拥有其他同级路由 的 路由属性 赋给 路由插件
    
-    const Tab = this._getBottom()
+    const Tab = this._getBottom();
     
     return <Tab 
         onNavigationStateChange={(prevState,newState,action)=>{

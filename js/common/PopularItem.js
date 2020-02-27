@@ -31,7 +31,7 @@ render(){
               <View style={{display:"flex",flexDirection:'row',justifyContent:"space-between"}}> 
                 <View style={{flexDirection:'row',justifyContent:"space-between",
                 paddingTop:10}}>
-                  <Text>Author1:</Text>
+                  <Text>Author:</Text>
                   <Image
                     style={{height:22,width:22}}
                     source={{uri:item.owner.avatar_url}}
