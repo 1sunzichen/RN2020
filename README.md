@@ -23,7 +23,8 @@
 ###### issue 汇总 
 ###### 1.react native AsyncStorage firebase JSON value '<null>' of type NSNull cannot be converted to NSString3
 ###### 原因（漏传参数）
-
+###### router of null  mapStateToPropsPage数据传递错误 
+###### mapStateToProps 命名不能都一样 否则报错
 ### 8-5 跳转组件通信    详情页 和 列表页 状态的同步
 ##### 第一步 在跳转 到 组件之前 在跳转方法中 设置 传递 的 回调函数
 ###### js/page/PopularPage.js    onSelect 中 传入 callback 函数

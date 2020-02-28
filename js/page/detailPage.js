@@ -56,19 +56,13 @@ export default class DetailPage extends Component<Props> {
   }
 
   onBack(){
-    //console.log('====================================');
-    //console.log(this,"webview");
-    //console.log('====================================');
     if(this.state.canGoBack){
-      ////console.log(this.refs.webView,"1111");
       this.webView.goBack();
     }else{
-      //console.log(this.props,"navigation");
       if(this.props.navigation){
         NavigationUtil.resetBack(this.props);
       }
     }
-
   }
   onFavoriteButtonClick(){
     const {projectModel,callback}=this.params;

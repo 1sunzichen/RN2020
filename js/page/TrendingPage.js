@@ -7,6 +7,7 @@
  */
 
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import NavigationUtil from '../navigators/navigationUtil';
 import {View, Text, StyleSheet, Button,FlatList,
@@ -16,7 +17,6 @@ DeviceEventEmitter,
 RefreshControl,ActivityIndicator} from 'react-native';
 import TrendingDialog,{TimeSpans} from '../common/TrendingDialog';
 import {createAppContainer} from 'react-navigation';
-import {connect} from 'react-redux';
 // 视频老师的插件 ***
 import Toast from 'react-native-easy-toast';
 import Actions from '../action';
@@ -26,8 +26,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FavoriteDao from '../expand/dao/FavoriteDao.js';
 import FavoriteUtil from "../util/FavoriteUtil";
 import {FALG_STORAGE} from '../expand/dao/dataStore.js';
+import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao.js';
 import EventBus from 'react-native-event-bus';
 import EventTypes from '../util/EventTypes.js';
+//判断数据是否相等
+import ArrayUtil from '../util/ArrayUtil.js'
 //TimeSpans
 const URL=`https://github.com/trending/`;
 const QUERY_STR="?since=daily";
@@ -35,27 +38,34 @@ const THEME_COLOR='#678';
 const pageSize=10;
 const favoriteDao=new FavoriteDao(FALG_STORAGE.flag_trending);
 type Props = {};
-class TrendingPage extends Component<Props> {
+class TrendingPage2 extends Component<Props> {
   constructor(props) {
     super(props);
-
-    this.TabNames = [ 'C','python','asp','JavaScript','vue','rust'];
+    const {onLoadLanguage}=this.props;
+    onLoadLanguage(FLAG_LANGUAGE.flag_lauguage);
+    //this.TabNames = [ 'C','python','asp','JavaScript','vue','rust'];
     this.state={
       timeSpan:TimeSpans[0],
  
     }
     this.ShowTime=this.ShowTime.bind(this);
+    this.prevlanguages=[];
   }
   _genTabs() {
     const Tabs = {};
-    this.TabNames.map((item, index) => {
-      Tabs[`tab${index}`] = {
-        //传递参数 props => <PopularTab {...props} Tablabel={item} />,
-        screen: props => <TrendingTabPage {...props}timeSpan={this.state.timeSpan}   tabLabel={item} />,
-        navigationOptions: {
-          title: item,
-        },
-      };
+    const {languages}=this.props;
+
+    this.prevlanguages=languages;
+    languages.map((item, index) => {
+      if(item.checked){
+        Tabs[`tab${index}`] = {
+          //传递参数 props => <PopularTab {...props} Tablabel={item} />,
+          screen: props => <TrendingPage {...props} {...this.props} timeSpan={this.state.timeSpan}   tabLabel={item} />,
+          navigationOptions: {
+            title: item.name,
+          },
+        };
+      }
     });
     return Tabs;
   }
@@ -118,7 +128,7 @@ class TrendingPage extends Component<Props> {
     
   }
   _tavNav(){
-    if(!this.tabNavC){
+    if(!this.tabNavC||!ArrayUtil.isEqual(this.prevlanguages,this.props.languages)){
       
     let tabNavi = createMaterialTopTabNavigator(this._genTabs(), {
       swipeEnabled:true,
@@ -245,7 +255,8 @@ class TrendingTab extends Component<Props> {
 
   }
   renderItem(data){
-
+    console.log(data,"trendData");
+    
     const item=data.item;
     // return <View>
     //     <Text >{JSON.stringify(item)}</Text>
@@ -335,13 +346,27 @@ const styles = StyleSheet.create({
 // reducer 返回的数据
 const mapStateToProps=state=>({
   trending:state.trending,
+
+
 })
 // action 请求的方法
 const mapDispatchToProps=dispatch=>({
   onLoadTrendingData:(storeName,url,pageSize,favoriteDao)=>dispatch(Actions.onLoadTrendingData(storeName,url,pageSize,favoriteDao)),
   onLoadMoreTrendingData:(storeName,pageIndex,pageSize,items,favoriteDao,callback)=>dispatch(Actions.onLoadMoreTrendingData(storeName,pageIndex,pageSize,items,favoriteDao,callback)),
-  onFlushTrendingFavorite:(storeName,pageIndex,pageSize,items,favoriteDao)=>dispatch(Actions.onFlushTrendingFavorite(storeName,pageIndex,pageSize,items,favoriteDao))
+  onFlushTrendingFavorite:(storeName,pageIndex,pageSize,items,favoriteDao)=>dispatch(Actions.onFlushTrendingFavorite(storeName,pageIndex,pageSize,items,favoriteDao)),
+ 
 })
-const TrendingTabPage=connect(mapStateToProps,mapDispatchToProps)(TrendingTab);
+const TrendingPage=connect(mapStateToProps,mapDispatchToProps)(TrendingTab);
 
-export default TrendingPage;
+
+//父组件
+const mapStateToPropsPageTrend=state=>({
+  languages:state.lauguage.languages,
+})
+// action 请求的方法
+const mapDispatchToPropsPageTrend=dispatch=>({
+  onLoadLanguage:(flag)=>dispatch(Actions.onLoadLanguage(flag)),
+
+})
+const TrendingPageWrap=connect(mapStateToPropsPageTrend,mapDispatchToPropsPageTrend)(TrendingPage2);
+export default TrendingPageWrap;

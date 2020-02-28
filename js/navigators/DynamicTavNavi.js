@@ -94,9 +94,11 @@ class DynamicTab extends Component<Props> {
     return <Tab 
         onNavigationStateChange={(prevState,newState,action)=>{
           //发出事件
+          // console.log(prevState,newState,"90909090");
+          
           EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{
-            from:prevState.index,
-            to:newState.index
+            from:prevState.index||-1,
+            to:newState.index||-1
           })
         }}
     />;

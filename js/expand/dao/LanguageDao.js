@@ -5,7 +5,7 @@ import keys from '../../res/data/keys.json';
 export const FLAG_LANGUAGE={flag_lauguage:'language_dao_language',
 flag_key:'language_dao_key'}
 
-export default class LauguageDao{
+export default class LanguageDao{
   constructor(flag){
     this.flag=flag;
   }

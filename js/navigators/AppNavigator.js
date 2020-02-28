@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import HomePage from '../page/homepage';
 import WelcomePage from '../page/welcome';
 import DetailPage from '../page/detailPage';
@@ -17,15 +17,28 @@ import {
   createReduxContainer,
 } from 'react-navigation-redux-helpers';
 export const rootCom = 'Init';
-const InitNavigate = createStackNavigator({
-  WelcomePage: {
-    screen: WelcomePage,
-    navigationOptions: {
-      header: null,
-    },
-  },
-});
-const MainNavigator = createStackNavigator({
+const Stack = createStackNavigator();
+const InitNavigate =()=>{
+  <Stack.Screen name="WelcomePage" component={WelcomePage} />
+}
+// const InitNavigate = createStackNavigator({
+//   WelcomePage: {
+//     screen: WelcomePage,
+//     navigationOptions: {
+//       header: null,
+//     },
+//   },
+// });
+const MainNavigator=()=>{
+   <Stack.Navigator>
+      <Stack.Screen name="HomePage" component={HomePage} />
+      <Stack.Screen name="DetailPage" component={DetailPage}  />
+      <Stack.Screen name="WebViewPage" component={WebViewPage} />
+      <Stack.Screen name="AboutPage" component={AboutPage} />
+      <Stack.Screen name="AboutMePage" component={AboutMePage} />
+    </Stack.Navigator>
+}
+const MainNavigators = createStackNavigator({
   HomePage: {
     screen: HomePage,
     navigationOptions: {
