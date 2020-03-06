@@ -49,3 +49,8 @@
 ##### 2. 创建处理计获取语言或标签和保存语言或标签的统一方法 的构造函数LauguageDao.js
 ##### 3. 创建Actions 类型
 ##### 4. 创建Reducer 数据结构
+### mac 10.15
+##### Error: System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/ruby: bad interpreter: No such file or directory
+##### 原因是系统升级之后使用了2.3的 ruby，但是Cocoapods似乎在link 的时候把地址固定在了2.0，于是就找不到。
+##### Cocoapods推荐的解决方案是重装
+##### sudo gem install cocoapods -n /usr/local/bin
