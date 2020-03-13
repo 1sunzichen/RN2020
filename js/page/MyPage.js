@@ -14,6 +14,7 @@ import NavigationBarDiy from '../common/NavigationBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import {MORE_MENU} from '../common/MORE_MENU.js';
+import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao.js';
 import GlobalStyles from '../res/GlobalStyles.js';
 import ViewUtil from '../util/viewUtil.js';
 import NavigationUtil from '../navigators/navigationUtil.js'
@@ -68,6 +69,15 @@ class  MyPage extends Component {
       case MORE_MENU.About_Author:
         //跳转到 关于页
         RouteName='AboutMePage';
+      break;
+      case MORE_MENU.Custom_Key:
+      case MORE_MENU.Custom_Language:
+      case MORE_MENU.Remove_Key:
+        //跳转到 关于页
+        RouteName='CustomKeyPage';
+        params.isRemoveKey=menu===MORE_MENU.Remove_Key;
+        params.flag=menu!==MORE_MENU.Custom_Language?FLAG_LANGUAGE.flag_key:
+        FLAG_LANGUAGE.flag_language
       break;
     }
     if(RouteName){

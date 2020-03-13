@@ -24,7 +24,12 @@ import {FALG_STORAGE} from '../expand/dao/dataStore.js';
 import EventBus from 'react-native-event-bus';
 import EventTypes from '../util/EventTypes.js';
 import FavoriteUtil from "../util/FavoriteUtil.js";
-import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao.js';
+import ViewUtil from '../util/viewUtil.js';
+import LanguageDao,{FLAG_LANGUAGE} from '../expand/dao/LanguageDao.js';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import Checkbox from 'react-native-check-box';
+import BackPressComponent from '../common/BackPressComponent.js';
+
 const URL=`https://api.github.com/search/repositories?q=`;
 const QUERY_STR="&sort=stars";
 const THEME_COLOR='#678';
@@ -40,20 +45,53 @@ class CustomKeyPage extends Component<Props> {
     this.backPress=new BackPressComponent({backPress:()=>this.onBackPress()})
     //this.TabNames = ['JAVA', 'Android', 'iOS', 'Flutter', 'ReactNative'];
     this.changeValues=[];
-    this.isRemoteKey=!!this.params.isRemoteKey;
+    this.isRemoveKey=!!this.params.isRemoveKey;
     this.languageDao=new LanguageDao(this.params.flag);
     this.state={
       keys:[]
     }
   }
+  static getDerivedStateFromProps(nextProps,prevState){
+    if(prevState.keys!==CustomKeyPage._keys(nextProps,null)){
+        return{
+          keys:CustomKeyPage._keys(nextProps,null,prevState)
+        }
+    }
+    return null;
+  }
   onBackPress(){
     NavigationUtil.resetBack(this.props);
     return true;
   }
+  _checkedImage(checked){
+    const {theme}=this.params;
+    return <Ionicons
+              name={checked?"ios-checkbox":'md-square-outline'}
+              size={20}
+              style={{
+                color:THEME_COLOR
+              }}
+    />
+  }
+  onClick(data,index){
 
+  }
+  renderCheckBox(data,index){
+
+    return <Checkbox
+      style={{flex:1,padding:10}}
+      onClick={()=>this.onClick(data,index)}
+      isChecked={this.state.isChecked}
+      leftText={data.name}
+      checkedImage={this._checkedImage(true)}
+      unCheckedImage={this._checkedImage(false)}
+
+    />
+  }
   componentDidMount() {
     this.backPress.componentDidMount();
-
+    console.log(this.props,"222");
+    
     if(CustomKeyPage._keys(this.props).length===0){
       let {onLoadLanguage}=this.props;
       onLoadLanguage(this.params.flag);
@@ -67,10 +105,16 @@ class CustomKeyPage extends Component<Props> {
   }
   //获取标签
   static _keys(props,original,state){
-    const {flag,isRemoteKey}=props.navigation.state.params;
+    const {flag,isRemoveKey}=props.navigation.state.params;
     let key=flag===FLAG_LANGUAGE.flag_key?"keys":"languages";
-    if(isRemoteKey&&!original){
-
+    if(isRemoveKey&&!original){
+       //如果state中的keys为空则从props中取
+            return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map(val => {
+                return {//注意：不直接修改props，copy一份
+                    ...val,
+                    checked: false
+                };
+            });
     }else{
       return props.language[key];
     }
@@ -102,26 +146,34 @@ class CustomKeyPage extends Component<Props> {
     if(!dataArray||dataArray.length===0) return;
     let len=dataArray.length;
     let views=[];
+    // 一排显示2个 复选框
     for(let i=0,l=len;i<l;i+=2){
       views.push(
         <View key={i}>
            <View style={styles.item}>
+           {this.renderCheckBox(dataArray[i],i)}
+           {i+1 < len && this.renderCheckBox(dataArray[i+1],i+1)}
               <View style={styles.line}/>
            </View>
         </View>
       )
     }
+    return views;
   }
   onSave(){
 
   }
   render() {
-    let title=this.isRemoteKey?'标签移除':'自定义标签';
+    let title=this.isRemoveKey?'标签移除':'自定义标签';//flag_lauguage
     title=this.params.flag===FLAG_LANGUAGE.flag_language?"自定义语言":title;
+    console.log(title,"title111",this.params.flag,FLAG_LANGUAGE.flag_language)
     let rightButtonTitle=this.isRemoveKey?'移除':'保存';
     let barHot=<NavigationBarDiy
           title={title}
           style={{backgroundColor:THEME_COLOR}}
+          leftButton={ViewUtil.getLeftButton(()=>{
+            this.onBackPress()
+          })}
           rightButton={ViewUtil.getRightButton(rightButtonTitle,()=>this.onSave())}
     />
   
@@ -136,7 +188,7 @@ class CustomKeyPage extends Component<Props> {
   }
 }
 const mapStateToPropsPage=state=>({
-  lauguage:state.lauguage,
+  language:state.language,
 })
 // action 请求的方法
 

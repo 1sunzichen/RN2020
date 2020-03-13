@@ -42,7 +42,7 @@ class TrendingPage2 extends Component<Props> {
   constructor(props) {
     super(props);
     const {onLoadLanguage}=this.props;
-    onLoadLanguage(FLAG_LANGUAGE.flag_lauguage);
+    onLoadLanguage(FLAG_LANGUAGE.flag_language);
     //this.TabNames = [ 'C','python','asp','JavaScript','vue','rust'];
     this.state={
       timeSpan:TimeSpans[0],
@@ -361,7 +361,7 @@ const TrendingPage=connect(mapStateToProps,mapDispatchToProps)(TrendingTab);
 
 //父组件
 const mapStateToPropsPageTrend=state=>({
-  languages:state.lauguage.languages,
+  languages:state.language.languages,
 })
 // action 请求的方法
 const mapDispatchToPropsPageTrend=dispatch=>({

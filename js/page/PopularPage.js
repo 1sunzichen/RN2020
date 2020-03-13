@@ -109,7 +109,7 @@ class PopularPage extends Component<Props> {
   }
 }
 const mapStateToPropsPage=state=>({
-  keys:state.lauguage.keys,
+  keys:state.language.keys,
 })
 // action 请求的方法
 

@@ -5,6 +5,8 @@ import WelcomePage from '../page/welcome';
 import DetailPage from '../page/detailPage';
 import WebViewPage from '../page/WebViewPage.js';
 import AboutPage from '../page/about/AboutPage.js';
+import CustomKeyPage from '../page/CustomKeyPage.js';
+
 import AboutMePage from '../page/about/AboutMePage.js';
 import {Button, Platform, ScrollView} from 'react-native';
 import {createSwitchNavigator} from 'react-navigation';
@@ -71,7 +73,12 @@ const MainNavigator = createStackNavigator({
       header: null,
     }
   },
-
+  CustomKeyPage:{
+    screen: CustomKeyPage,
+    navigationOptions: {
+      header: null,
+    }
+  }
   // FetchPage: {
   //   screen: FetchPage,
   //   navigationOptions: {
