@@ -11,7 +11,7 @@ import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import NavigationUtil from '../navigators/navigationUtil';
 import {View, Text, StyleSheet, Button,FlatList,
 // 刷新         加载小圆圈
-RefreshControl,ActivityIndicator,ScrollView} from 'react-native';
+RefreshControl,ActivityIndicator,ScrollView,Alert} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {connect} from 'react-redux';
 // 视频老师的插件 ***
@@ -25,6 +25,7 @@ import EventBus from 'react-native-event-bus';
 import EventTypes from '../util/EventTypes.js';
 import FavoriteUtil from "../util/FavoriteUtil.js";
 import ViewUtil from '../util/viewUtil.js';
+import ArrayUtil from '../util/ArrayUtil.js';
 import LanguageDao,{FLAG_LANGUAGE} from '../expand/dao/LanguageDao.js';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Checkbox from 'react-native-check-box';
@@ -51,6 +52,7 @@ class CustomKeyPage extends Component<Props> {
       keys:[]
     }
   }
+  //
   static getDerivedStateFromProps(nextProps,prevState){
     if(prevState.keys!==CustomKeyPage._keys(nextProps,null)){
         return{
@@ -60,7 +62,23 @@ class CustomKeyPage extends Component<Props> {
     return null;
   }
   onBackPress(){
+    if(this.changeValues.length>0){
+        Alert.alert('提示','保存修改吗',[
+          {
+            text:'否',onPress:()=>{
+               NavigationUtil.resetBack(this.props);
+            }
+          },
+          {
+             text:'是',onPress:()=>{
+               this.onSave();
+             }
+          }
+        ])
+    }else{
+
     NavigationUtil.resetBack(this.props);
+    }
     return true;
   }
   _checkedImage(checked){
@@ -74,14 +92,19 @@ class CustomKeyPage extends Component<Props> {
     />
   }
   onClick(data,index){
-
+        data.checked=!data.checked;
+        ArrayUtil.updateArray(this.changeValues,data);
+        this.state.keys[index]=data;//更新state 以便显示选中状态
+        this.setState({
+          keys:this.state.keys
+        })
   }
   renderCheckBox(data,index){
 
     return <Checkbox
       style={{flex:1,padding:10}}
       onClick={()=>this.onClick(data,index)}
-      isChecked={this.state.isChecked}
+      isChecked={data.checked}
       leftText={data.name}
       checkedImage={this._checkedImage(true)}
       unCheckedImage={this._checkedImage(false)}
@@ -90,7 +113,7 @@ class CustomKeyPage extends Component<Props> {
   }
   componentDidMount() {
     this.backPress.componentDidMount();
-    console.log(this.props,"222");
+   
     
     if(CustomKeyPage._keys(this.props).length===0){
       let {onLoadLanguage}=this.props;
@@ -103,10 +126,13 @@ class CustomKeyPage extends Component<Props> {
   componentWillUnmount() {
     this.backPress.componentWillUnmount();
   }
-  //获取标签
+  //获取标签   original bool  state props 数据
   static _keys(props,original,state){
     const {flag,isRemoveKey}=props.navigation.state.params;
     let key=flag===FLAG_LANGUAGE.flag_key?"keys":"languages";
+    //如果是标签移除  重置非选中状态 和  
+    // 当前keys  存在 就取 当前的 keys 默认进来 所有的keys ；
+    // 不存在 取 所有的keys
     if(isRemoveKey&&!original){
        //如果state中的keys为空则从props中取
             return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map(val => {
@@ -161,6 +187,23 @@ class CustomKeyPage extends Component<Props> {
     return views;
   }
   onSave(){
+    if(this.changeValues.length===0){
+       NavigationUtil.resetBack(this.props);
+      return;
+    }
+    let keys;
+    if(this.isRemoveKey){
+      for(let i=0,l=this.changeValues.length;i<l;i++){
+        ArrayUtil.remove(keys=CustomKeyPage._keys(this.props,true),this.changeValues[i],"name")
+      }
+    }
+    
+    //更新本地数据
+    this.languageDao.save(keys||this.state.keys);
+    const {onLoadLanguage}=this.props;
+    //更新store
+    onLoadLanguage(this.params.flag);
+    NavigationUtil.resetBack(this.props);
 
   }
   render() {

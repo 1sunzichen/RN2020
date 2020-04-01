@@ -1,10 +1,12 @@
-import {onThemeChange} from './theme';
+import {onThemeChange, onShowCustomThemeView, onThemeInit} from './theme';
 import {onLoadPopularData,onLoadMorePopularData,onFlushPopularFavorite} from './popular';
 import {onLoadTrendingData,onLoadMoreTrendingData,onFlushTrendingFavorite} from './trending';
 import {onLoadFavoriteData} from './favorite';
 import {onLoadLanguage} from './language';
 export default {
   onThemeChange,
+  onShowCustomThemeView, 
+  onThemeInit,
   onLoadPopularData,
   onLoadMorePopularData,
   onLoadTrendingData,

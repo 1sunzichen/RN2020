@@ -151,6 +151,7 @@ class TrendingPage2 extends Component<Props> {
           fontSize: 23,
         }, //文件样式
       },
+      lazy:true
     });
          this.tabNavC=createAppContainer(tabNavi);
     }

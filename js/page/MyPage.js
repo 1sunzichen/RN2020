@@ -70,6 +70,17 @@ class  MyPage extends Component {
         //跳转到 关于页
         RouteName='AboutMePage';
       break;
+      //标签排序页
+      case MORE_MENU.Sort_Key:
+        //跳转到 关于页
+        RouteName='SortKeyPage';
+        params.flag=FLAG_LANGUAGE.flag_key;
+      //语言排序页
+      case MORE_MENU.Sort_Language:
+        //跳转到 关于页
+        RouteName='SortKeyPage';
+        params.flag=FLAG_LANGUAGE.flag_language;
+      break;
       case MORE_MENU.Custom_Key:
       case MORE_MENU.Custom_Language:
       case MORE_MENU.Remove_Key:

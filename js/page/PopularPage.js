@@ -98,6 +98,8 @@ class PopularPage extends Component<Props> {
           fontSize: 23,
         }, //文件样式
       },
+      //每次只会渲染一个列表
+      lazy:true
     })):null;
  
     return (<View style={{flex:1}}>

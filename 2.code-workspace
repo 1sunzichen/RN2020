@@ -1,28 +1,35 @@
 {
 	"folders": [
 		{
-			"path": "."
-		},
-		{
-			"path": "/Users/ekko/Public/pro/练习专用/typeScriptAxios/RN/THREE"
-		},
-		{
-			"path": "/Users/ekko/Desktop/github_advanced"
-		},
-		{
 			"path": "/Users/ekko/Public/pro/练习专用/算法题"
 		},
 		{
 			"path": "/Users/ekko/Public/pro/练习专用/chatByRedux"
 		},
 		{
-			"path": "/Users/ekko/Public/pro/练习专用/算法题/提货量静态图"
+			"path": "/Users/ekko/Public/pro/练习专用/webpackPractice"
 		},
 		{
-			"path": "/Users/ekko/Public/pro/练习专用/GO"
+			"path": "/Users/ekko/Public/pro/练习专用/GO/my-app"
 		}
 	],
 	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "算法题"
+		"liveServer.settings.multiRootWorkspaceName": "webpackPractice",
+		"git.ignoreLimitWarning": true,
+		"editor.formatOnSave": true,
+		"eslint.validate": [
+			"vue",
+			"html",
+			"javascript",
+			"typescript",
+			"javascriptreact",
+			"typescriptreact"
+		],
+		"files.associations": {
+			"*.js": "javascriptreact"
+		},
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
 	}
 }
