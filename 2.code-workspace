@@ -1,20 +1,26 @@
 {
 	"folders": [
 		{
-			"path": "/Users/ekko/Public/pro/练习专用/算法题"
+			"path": "/Users/ekko/Public/pro/练习专用/leetcode"
 		},
 		{
-			"path": "/Users/ekko/Public/pro/练习专用/chatByRedux"
+			"path": "/Users/ekko/Public/pro/练习专用/automaticFrontEnd"
 		},
 		{
-			"path": "/Users/ekko/Public/pro/练习专用/webpackPractice"
+			"path": "../../../typescriptStudy"
 		},
 		{
-			"path": "/Users/ekko/Public/pro/练习专用/GO/my-app"
+			"path": "."
+		},
+		{
+			"path": "../../../webpackPractices"
+		},
+		{
+			"path": "../../../GO/my-app"
 		}
 	],
 	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "webpackPractice",
+		"liveServer.settings.multiRootWorkspaceName": "automaticFrontEnd",
 		"git.ignoreLimitWarning": true,
 		"editor.formatOnSave": true,
 		"eslint.validate": [
@@ -29,7 +35,9 @@
 			"*.js": "javascriptreact"
 		},
 		"editor.codeActionsOnSave": {
-			"source.fixAll.eslint": true
+			"source.fixAll.tslint": true
+			// "source.fixAll.eslint": true
 		},
-	}
+	},
+	"gitlens.advanced.messages": {}
 }
